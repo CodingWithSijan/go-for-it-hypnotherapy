@@ -1,5 +1,5 @@
-import Register from "./components/Register";
-import Home from "./components/Home";
+import Register from "./components/register/Register";
+import Home from "./components/homepage/Home";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
