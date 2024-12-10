@@ -6,6 +6,7 @@ import FAQAccordin from "../components/homepage_components/FAQAccordin";
 import AboutStellaSection from "../components/homepage_components/AboutStellaSection";
 
 import Footer from "../components/common_components/Footer";
+import VideoIntroduction from "../components/homepage_components/VideoIntroduction";
 
 const Homepage = () => {
   return (
@@ -15,6 +16,7 @@ const Homepage = () => {
       <Features />
       <TransformSection />
       <AboutStellaSection />
+      <VideoIntroduction />
       <FAQAccordin />
       <Footer />
     </div>
