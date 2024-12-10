@@ -29,6 +29,9 @@ const Register = () => {
         }
       );
       console.log(response.data);
+      if (response) {
+        console.log("user created ");
+      }
       setData({ username: "", email: "", password: "", file: null });
     } catch (error) {
       console.log("Error while registering!", error);

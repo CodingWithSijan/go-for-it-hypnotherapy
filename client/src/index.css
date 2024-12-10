@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#mobile-menu {
+  display: none;
+}
+
+#mobile-menu-button[aria-expanded="true"] + #mobile-menu {
+  display: block;
+}
