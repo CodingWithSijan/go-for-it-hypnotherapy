@@ -1,5 +1,6 @@
 import banner_image from "../../assets/landing_page/banner_1.jpg";
 import { ReactTyped } from "react-typed";
+import { FaCalendarAlt } from "react-icons/fa";
 
 const HeroSection = () => {
   return (
@@ -11,7 +12,7 @@ const HeroSection = () => {
         <h1 className="text-4xl md:text-5xl font-bold text-white">
           Go For It Hypnotherapy
         </h1>
-        <p className="mt-4 text-10xl font-bold md:text-4xl text-blue-200">
+        <p className="mt-4 text-10xl font-bold md:text-4xl text-white">
           <ReactTyped
             strings={[
               " Overcome the barriers.",
@@ -26,6 +27,13 @@ const HeroSection = () => {
             loop
           />
         </p>
+        <button
+          onClick={() => alert("Booking appointment...")} // Placeholder action for the button
+          className="flex items-center justify-center mt-14 bg-blue-600 text-white py-3 px-6 rounded-full text-lg font-semibold hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg"
+        >
+          <FaCalendarAlt className="mr-2" /> {/* Calendar icon */}
+          Book Appointment
+        </button>
       </div>
     </section>
   );

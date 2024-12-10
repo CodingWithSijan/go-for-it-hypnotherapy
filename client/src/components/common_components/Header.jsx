@@ -2,7 +2,13 @@
 
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { FaBars, FaTimes } from "react-icons/fa";
+import {
+  FaBars,
+  FaTimes,
+  FaSignInAlt,
+  FaUserPlus,
+  FaCalendarAlt,
+} from "react-icons/fa";
 
 import navbar_logo from "../../assets/logo.png";
 
@@ -70,26 +76,33 @@ const Header = () => {
 
         {/* Actions */}
         <div className="hidden md:flex space-x-4 items-center">
-          <NavLink
-            to="/login"
-            className={({ isActive }) =>
-              isActive ? activeStyles : navLinkStyles
-            }
-          >
-            Login
-          </NavLink>
-          <NavLink
-            to="/signup"
-            className={({ isActive }) =>
-              isActive ? activeStyles : navLinkStyles
-            }
-          >
-            Sign Up
-          </NavLink>
+          <div className="flex justify-between items-center">
+            <FaSignInAlt className="mr-2" />
+            <NavLink
+              to="/login"
+              className={({ isActive }) =>
+                isActive ? activeStyles : navLinkStyles
+              }
+            >
+              Login
+            </NavLink>
+          </div>
+          <div className="flex justify-between items-center">
+            <FaUserPlus className="mr-2" /> {/* Signup icon */}
+            <NavLink
+              to="/signup"
+              className={({ isActive }) =>
+                isActive ? activeStyles : navLinkStyles
+              }
+            >
+              Sign Up
+            </NavLink>
+          </div>
           <NavLink
             to="/book"
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            className="flex justify-between items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
           >
+            <FaCalendarAlt className="mr-2" /> {/* Calendar icon */}
             Book Appointment
           </NavLink>
         </div>

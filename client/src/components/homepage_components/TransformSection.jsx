@@ -2,7 +2,7 @@ import transformSection_image from "../../assets/landing_page/banner_2.png";
 
 const TransformSection = () => {
   return (
-    <section className="py-16 bg-white text-[#1D2C60] h-screen">
+    <section className="py-16 bg-white text-[#1D2C60] ">
       <div className="container mx-auto text-center">
         <img
           src={transformSection_image}
