@@ -1,5 +1,4 @@
 // src/components/VideoIntroduction.jsx
-import { FaPlayCircle } from "react-icons/fa"; // Icon for play button
 
 const VideoIntroduction = () => {
   return (
@@ -25,20 +24,15 @@ const VideoIntroduction = () => {
             rel="noopener noreferrer"
             className="group"
           >
-            <div className="w-full h-72 md:h-96 bg-gray-800 rounded-xl overflow-hidden">
+            <div className="w-[60vw] h-72 md:h-96 bg-gray-800 rounded-xl overflow-hidden">
               <iframe
                 className="w-full h-full"
                 src="https://www.youtube.com/embed/mMNEDv5ilrE?autoplay=1&mute=1"
                 title="Stella Introduction Video"
                 frameBorder="0"
-                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               ></iframe>
-            </div>
-
-            {/* Play Icon Over Video */}
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <FaPlayCircle className="text-white text-6xl" />
             </div>
           </a>
         </div>

@@ -41,7 +41,7 @@ const Header = () => {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-6">
           <NavLink
-            to="/home"
+            to="/"
             className={({ isActive }) =>
               isActive ? activeStyles : navLinkStyles
             }
@@ -99,7 +99,7 @@ const Header = () => {
             </NavLink>
           </div>
           <NavLink
-            to="/book"
+            to="/book_appointment"
             className="flex justify-between items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
           >
             <FaCalendarAlt className="mr-2" /> {/* Calendar icon */}
@@ -122,7 +122,7 @@ const Header = () => {
           <ul className="space-y-4 p-4">
             <li>
               <NavLink
-                to="/home"
+                to="/"
                 className={({ isActive }) =>
                   isActive ? activeStyles : navLinkStyles
                 }

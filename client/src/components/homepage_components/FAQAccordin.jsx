@@ -7,9 +7,31 @@ const FAQAccordin = () => {
     setActiveIndex(activeIndex === index ? null : index);
   };
   const faqs = [
-    { question: "What is hypnotherapy?", answer: "Hypnotherapy is..." },
-    { question: "How can it help me?", answer: "It helps by..." },
-    { question: "Is it safe?", answer: "Yes, hypnotherapy is safe..." },
+    {
+      question: "What is hypnotherapy, and how does it work?",
+      answer:
+        "Hypnotherapy is a therapeutic technique that uses relaxation and focused attention to help you achieve a heightened state of awareness, allowing positive suggestions to help overcome challenges or achieve goals.",
+    },
+    {
+      question: " Is hypnotherapy safe?",
+      answer:
+        "Yes, hypnotherapy is completely safe. It is a natural state of deep relaxation, and you are always in control during the session.",
+    },
+    {
+      question: "What issues can hypnotherapy help with?",
+      answer:
+        "We specialize in areas like smoking cessation, weight loss, anxiety, depression, motivation, and overcoming fears such as flying.",
+    },
+    {
+      question: "How long is a typical session?",
+      answer:
+        "The duration depends on the service. For smoking cessation, sessions are typically 90 minutes. Weight loss and other issues may require multiple sessions.",
+    },
+    {
+      question: "How many sessions will I need?",
+      answer:
+        "This depends on your specific needs and goals. Smoking cessation often requires one session, while weight loss or anxiety management may need multiple sessions for lasting results.",
+    },
   ];
 
   return (

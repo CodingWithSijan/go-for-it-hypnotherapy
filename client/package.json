@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.5.2",
+    "@heroicons/react": "^1.0.6",
     "ant": "^0.2.0",
     "antd": "^5.22.4",
     "axios": "^1.7.8",
+    "framer-motion": "^11.13.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-icons": "^5.4.0",
