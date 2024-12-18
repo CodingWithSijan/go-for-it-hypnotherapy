@@ -1,7 +1,7 @@
 import banner_image from "../../assets/landing_page/banner_1.jpg";
 import { ReactTyped } from "react-typed";
 import { FaCalendarAlt } from "react-icons/fa";
-
+import {NavLink} from 'react-router-dom'
 const HeroSection = () => {
   return (
     <section
@@ -28,11 +28,10 @@ const HeroSection = () => {
           />
         </p>
         <button
-          onClick={() => alert("Booking appointment...")} // Placeholder action for the button
           className="flex items-center justify-center mt-14 bg-blue-600 text-white py-3 px-6 rounded-full text-lg font-semibold hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg"
         >
           <FaCalendarAlt className="mr-2" /> {/* Calendar icon */}
-          Book Appointment
+          <NavLink to="/book_appointment">Book Appointment</NavLink>
         </button>
       </div>
     </section>

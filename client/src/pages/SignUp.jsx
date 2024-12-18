@@ -2,6 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
 import bannerImage from "../assets/landing_page/banner_1.jpg";
+import { NavLink } from "react-router-dom";
+import Header from "../components/common_components/Header"
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -48,7 +50,9 @@ const SignUp = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row items-center md:items-stretch justify-center h-screen bg-gradient-to-br from-blue-50 to-blue-100">
+    <div>
+    <Header/>
+    <div className="flex flex-col md:flex-row items-center md:items-stretch justify-center min-h-screen bg-gradient-to-br from-blue-50 to-blue-100">
       {/* Form Section */}
       <motion.div
         className="w-full md:w-1/2 h-full px-6 py-12 md:px-12 bg-white shadow-lg"
@@ -60,7 +64,7 @@ const SignUp = () => {
           onSubmit={handleSubmit}
           className="h-full flex flex-col justify-center space-y-6"
         >
-          <h2 className="text-3xl font-extrabold text-center text-blue-700 mb-4">
+          <h2 className="text-3xl mt-6 font-extrabold text-center text-blue-700 mb-4">
             Create Your Account
           </h2>
           <p className="text-center text-gray-600">
@@ -134,7 +138,12 @@ const SignUp = () => {
               <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
             )}
           </div>
-
+            {/* Already have an account login */}
+            <div>
+              <p>Already have an account 
+                <NavLink to="/login"><b className="text-blue-500 text-md ml-2">Login</b></NavLink>
+              </p>
+            </div>
           {/* Submit Button */}
           <div>
             <motion.button
@@ -161,10 +170,11 @@ const SignUp = () => {
         <img
           src={bannerImage}
           alt="Signup Banner"
-          className="h-full w-full object-cover"
+          className="min-h-screen w-full object-cover"
           loading="lazy"
         />
       </motion.div>
+    </div>
     </div>
   );
 };
