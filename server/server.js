@@ -1,30 +1,23 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const colors = require("colors");
 const cors = require("cors");
-const passport = require("passport");
-const authRoutes = require("./routes/authRoutes");
-
+const authRouter = require("./routes/authRouter");
+require("./models/db");
 dotenv.config();
+
 const app = express();
 
-// Middleware
-app.use(express.json());
-app.use(cors());
-app.use(passport.initialize());
-
-// Routes
-app.use("/api/auth", authRoutes);
-
-// Connect to MongoDB
-mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
   })
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.log(err));
+);
+app.use(express.json());
 
-// Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.use("/auth", authRouter);
+
+app.listen(process.env.PORT || 3000, () => {
+  console.log(`Server started on port ${process.env.PORT}`.bgCyan);
+});
