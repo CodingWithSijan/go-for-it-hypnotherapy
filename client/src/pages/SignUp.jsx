@@ -1,10 +1,8 @@
 import { useState } from "react";
-import axios from "axios";
 import { motion } from "framer-motion";
 import bannerImage from "../assets/landing_page/banner_1.jpg";
 import { NavLink } from "react-router-dom";
-import Header from "../components/common_components/Header";
-
+import axios from "axios";
 const SignUp = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -39,13 +37,15 @@ const SignUp = () => {
 
     setIsSubmitting(true);
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/signup`, formData);
-      alert("Signup successful! Please verify your email and phone number.");
+      const response = await axios.post(
+        "http://localhost:3000/auth/signup",
+        formData
+      );
+      console.log("Response: ", response.data);
+      alert("User registered successfully");
     } catch (error) {
-      console.error(error);
-      alert("Signup failed. Please try again.");
-    } finally {
-      setIsSubmitting(false);
+      console.log("Error: ", error);
+      alert("Failed to register. Please try again");
     }
   };
 
@@ -153,7 +153,6 @@ const SignUp = () => {
                 isSubmitting ? "opacity-50 cursor-not-allowed" : ""
               }`}
               whileHover={{ scale: 1.05 }}
-              disabled={isSubmitting}
             >
               {isSubmitting ? "Signing Up..." : "Sign Up"}
             </motion.button>

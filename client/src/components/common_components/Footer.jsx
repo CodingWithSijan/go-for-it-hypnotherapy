@@ -57,7 +57,7 @@ const Footer = () => {
           <h3 className="text-xl font-semibold mb-4">Follow Us</h3>
           <div className="flex space-x-6">
             <a
-              href="https://facebook.com"
+              href="https://www.facebook.com/stella.dichiera"
               target="_blank"
               rel="noopener noreferrer"
               className="text-2xl hover:text-blue-600"
@@ -65,7 +65,7 @@ const Footer = () => {
               <FaFacebook />
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/stella-dichiera-9a181117/?originalSubdomain=aum"
               target="_blank"
               rel="noopener noreferrer"
               className="text-2xl hover:text-blue-700"
@@ -73,7 +73,7 @@ const Footer = () => {
               <FaLinkedin />
             </a>
             <a
-              href="https://youtube.com"
+              href="https://youtu.be/mMNEDv5ilrE"
               target="_blank"
               rel="noopener noreferrer"
               className="text-2xl hover:text-red-600"
