@@ -2,31 +2,34 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import bannerImage from "../assets/landing_page/banner_1.jpg";
 import { NavLink } from "react-router-dom";
+import { handleSuccess, handleError } from "../utils/utils";
+import { validateData } from "../utils/validationHelper";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const SignUp = () => {
+  // useState hook form setting formData
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
     phone: "",
   });
+  // Error state
   const [errors, setErrors] = useState({});
+  // changing the signup button to "signing up... and disabling it while submitting"
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const navigate = useNavigate();
+  // getting input from user
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setErrors({ ...errors, [e.target.name]: "" });
   };
 
+  //Validation data using validationHelper.js from utils
   const validate = () => {
-    const newErrors = {};
-    if (!formData.name) newErrors.name = "Name is required";
-    if (!formData.email) newErrors.email = "Email is required";
-    if (!formData.password) newErrors.password = "Password is required";
-    if (!formData.phone) newErrors.phone = "Phone number is required";
-    return newErrors;
+    return validateData(formData);
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
@@ -34,18 +37,26 @@ const SignUp = () => {
       setErrors(validationErrors);
       return;
     }
-
-    setIsSubmitting(true);
+    // sending data to backend using axios
     try {
       const response = await axios.post(
         "http://localhost:3000/auth/signup",
         formData
       );
+      setIsSubmitting(true);
       console.log("Response: ", response.data);
-      alert("User registered successfully");
+      handleSuccess("User Registered Successfully...Redirecting...");
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
     } catch (error) {
       console.log("Error: ", error);
-      alert("Failed to register. Please try again");
+      if (error.response.status === 409) {
+        handleError(error.response.data.message);
+      }
+      setIsSubmitting(false);
+      handleError("Failed to register. Please try again");
     }
   };
 
@@ -127,7 +138,7 @@ const SignUp = () => {
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              placeholder="Phone Number"
+              placeholder="Phone Number (0421737089)"
               className={`w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                 errors.phone ? "border-red-500" : "border-gray-300"
               }`}
