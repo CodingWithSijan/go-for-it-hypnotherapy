@@ -2,6 +2,9 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { NavLink } from "react-router-dom";
 import bannerImage from "../assets/landing_page/banner_1.jpg";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { handleSuccess, handleError } from "../utils/utils";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +13,8 @@ const Login = () => {
   });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -31,20 +36,31 @@ const Login = () => {
       return;
     }
 
-    setIsSubmitting(true);
     try {
-      // Simulate login process
-      alert("Login successful!");
+      const response = await axios.post(
+        "http://localhost:3000/auth/login",
+        formData
+      );
+      setIsSubmitting(true);
+      const { success, message, jwtToken, name, email } = await response.data;
+      console.log("Response: " + message);
+      if (success) {
+        handleSuccess(message);
+        localStorage.setItem("token", jwtToken);
+        localStorage.setItem("loggedInUser", name);
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      } else {
+        handleError("Invalid email or password!");
+        setIsSubmitting(false);
+      }
     } catch (error) {
       console.error(error);
-      alert("Login failed. Please try again.");
+      handleError("Invalid email or password!");
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const handleGoogleSignIn = () => {
-    alert("Google Sign-In clicked! Implement Google authentication here.");
   };
 
   return (
@@ -119,18 +135,6 @@ const Login = () => {
               disabled={isSubmitting}
             >
               {isSubmitting ? "Logging In..." : "Log In"}
-            </motion.button>
-          </div>
-
-          {/* Google Sign-In Button */}
-          <div>
-            <motion.button
-              type="button"
-              onClick={handleGoogleSignIn}
-              className="w-full bg-red-500 text-white py-3 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-red-300 transition duration-200"
-              whileHover={{ scale: 1.05 }}
-            >
-              Sign In with Google
             </motion.button>
           </div>
 

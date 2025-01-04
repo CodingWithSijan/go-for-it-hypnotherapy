@@ -1,6 +1,6 @@
 // src/components/Header.js
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import {
   FaBars,
@@ -9,16 +9,32 @@ import {
   FaUserPlus,
   FaCalendarAlt,
 } from "react-icons/fa";
-
+import { useNavigate } from "react-router-dom";
 import navbar_logo from "../../assets/logo.png";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState("");
+
+  useEffect(() => {
+    setLoggedInUser(localStorage.getItem("loggedInUser") || "");
+  }, []);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen((prev) => !prev);
   };
 
+  const navigate = useNavigate();
+  // logout button handler
+  const handleLogout = () => {
+    localStorage.removeItem("loggedInUser");
+    localStorage.removeItem("token");
+    setTimeout(() => {
+      setLoggedInUser("");
+      navigate("/login");
+    }, 1000);
+  };
+  // common styles for links
   const navLinkStyles = "text-gray-600 hover:text-gray-900";
   const activeStyles = "text-blue-600 font-semibold";
 
@@ -37,6 +53,9 @@ const Header = () => {
             className="w-[12rem] h-[3rem]"
           />
         </NavLink>
+        {loggedInUser.length > 0 && (
+          <h2 className="text-2xl text-blue-700">{loggedInUser}</h2>
+        )}
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-6">
@@ -75,37 +94,39 @@ const Header = () => {
         </nav>
 
         {/* Actions */}
-        <div className="hidden md:flex space-x-4 items-center">
-          <div className="flex justify-between items-center">
-            <FaSignInAlt className="mr-2" />
+        {loggedInUser.length <= 0 && (
+          <div className="hidden md:flex space-x-4 items-center">
+            <div className="flex justify-between items-center">
+              <FaSignInAlt className="mr-2" />
+              <NavLink
+                to="/login"
+                className={({ isActive }) =>
+                  isActive ? activeStyles : navLinkStyles
+                }
+              >
+                Login
+              </NavLink>
+            </div>
+            <div className="flex justify-between items-center">
+              <FaUserPlus className="mr-2" /> {/* Signup icon */}
+              <NavLink
+                to="/signup"
+                className={({ isActive }) =>
+                  isActive ? activeStyles : navLinkStyles
+                }
+              >
+                Sign Up
+              </NavLink>
+            </div>
             <NavLink
-              to="/login"
-              className={({ isActive }) =>
-                isActive ? activeStyles : navLinkStyles
-              }
+              to="/book_appointment"
+              className="flex justify-between items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
             >
-              Login
+              <FaCalendarAlt className="mr-2" /> {/* Calendar icon */}
+              Book Appointment
             </NavLink>
           </div>
-          <div className="flex justify-between items-center">
-            <FaUserPlus className="mr-2" /> {/* Signup icon */}
-            <NavLink
-              to="/signup"
-              className={({ isActive }) =>
-                isActive ? activeStyles : navLinkStyles
-              }
-            >
-              Sign Up
-            </NavLink>
-          </div>
-          <NavLink
-            to="/book_appointment"
-            className="flex justify-between items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-          >
-            <FaCalendarAlt className="mr-2" /> {/* Calendar icon */}
-            Book Appointment
-          </NavLink>
-        </div>
+        )}
 
         {/* Mobile Menu Button */}
         <button
@@ -115,7 +136,6 @@ const Header = () => {
           {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
         </button>
       </div>
-
       {/* Mobile Navigation */}
       {isMobileMenuOpen && (
         <nav className="md:hidden bg-gray-100 shadow-md">
@@ -164,28 +184,32 @@ const Header = () => {
                 Contact Us
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                to="/login"
-                className={({ isActive }) =>
-                  isActive ? activeStyles : navLinkStyles
-                }
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Login
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/signup"
-                className={({ isActive }) =>
-                  isActive ? activeStyles : navLinkStyles
-                }
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Sign Up
-              </NavLink>
-            </li>
+            {loggedInUser.length <= 0 && (
+              <>
+                <li>
+                  <NavLink
+                    to="/login"
+                    className={({ isActive }) =>
+                      isActive ? activeStyles : navLinkStyles
+                    }
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Login
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/signup"
+                    className={({ isActive }) =>
+                      isActive ? activeStyles : navLinkStyles
+                    }
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Sign Up
+                  </NavLink>
+                </li>
+              </>
+            )}
             <li>
               <NavLink
                 to="/book"
@@ -195,6 +219,17 @@ const Header = () => {
                 Book Appointment
               </NavLink>
             </li>
+            {/* If user is authenticated and logged in show logout button */}
+            {loggedInUser.length > 0 && (
+              <li>
+                <button
+                  className="block px-4 py-2 text-red-800 rounded hover:text-red-400"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
+              </li>
+            )}
           </ul>
         </nav>
       )}

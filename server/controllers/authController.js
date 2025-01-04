@@ -7,13 +7,21 @@ const signup = async (req, res) => {
     //get details from client side
     const { name, email, password, phone } = req.body;
     //check if user already exists
-    const user = await UserModel.findOne({ email });
+    const user = await UserModel.findOne({ $or: [{ email }, { phone }] });
     // if user exists return error or login
     if (user) {
-      return res.status(409).json({
-        message: "User already exists, please login instead.",
-        success: false,
-      });
+      if (user.email === email) {
+        return res.status(409).json({
+          message: "Email already exists, Please login instead",
+          success: false,
+        });
+      }
+      if (user.phone === phone) {
+        return res.status(409).json({
+          message: "Phone number already exists, Please login instead",
+          success: false,
+        });
+      }
     }
     //if user doesn't exist save it on the database
     const userModel = new UserModel({ name, email, password, phone });
@@ -21,7 +29,7 @@ const signup = async (req, res) => {
     await userModel.save();
     res.status(201).json({ message: "signup successfull", success: true });
   } catch (error) {
-    res.json({ message: "Internal server error", success: false });
+    res.status(500).json({ message: "Internal server error", success: false });
   }
 };
 //login Controller
@@ -44,9 +52,9 @@ const login = async (req, res) => {
     }
     // jwt
     const jwtToken = jwt.sign(
-      { email: user.email, _id: user._id },
+      { email: user.email, _id: user._id, name: user.name },
       process.env.JWT_SECRET,
-      { expiresIn: "2h" }
+      { expiresIn: "1h" }
     );
 
     res.status(200).json({

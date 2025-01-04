@@ -6,22 +6,11 @@ import Services from "./pages/Services";
 import Login from "./pages/Login";
 import Pricing from "./pages/Pricing";
 import BookAppointment from "./pages/BookAppontment";
-import Dashboard from "./pages/admin/Dashboard";
-// import Booking from "./pages/admin/Booking";
-// import Profile from "./pages/admin/Profile";
-
-const AdminLayout = ({ children }) => (
-  <div className="admin-layout">
-    <Sidebar />
-    <div className="admin-content">
-      {children}
-    </div>
-  </div>
-);
 
 const App = () => {
   return (
     <Router>
+      <ToastContainer />
       <Routes>
         {/* Public routes */}
         <Route path="/" element={<Homepage />} />
