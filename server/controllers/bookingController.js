@@ -46,3 +46,13 @@ exports.getUserBookings = async (req, res) => {
     res.status(500).json({ message: "Server Error", error: error.message });
   }
 };
+
+exports.getAllBookings = async (req, res) => {
+  try{
+    const bookings = await Booking.find();
+    res.json({bookings})
+    }catch(error){
+    console.log("Server Error: ", error.message);
+    res.status(500).json({message: "Server Error", error: error.message});
+  }
+}
