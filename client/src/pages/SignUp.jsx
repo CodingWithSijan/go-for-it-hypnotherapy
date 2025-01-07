@@ -6,6 +6,7 @@ import { handleSuccess, handleError } from "../utils/utils";
 import { validateData } from "../utils/validationHelper";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
 const SignUp = () => {
   // useState hook form setting formData
   const [formData, setFormData] = useState({

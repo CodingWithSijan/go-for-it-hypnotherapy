@@ -53,9 +53,6 @@ const Header = () => {
             className="w-[12rem] h-[3rem]"
           />
         </NavLink>
-        {loggedInUser.length > 0 && (
-          <h2 className="text-2xl text-blue-700">{loggedInUser}</h2>
-        )}
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-6">
@@ -135,6 +132,23 @@ const Header = () => {
         >
           {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
         </button>
+
+        {loggedInUser.length > 0 && (
+          <h2 className="hidden sm:block text-2xl text-blue-700">
+            {loggedInUser}
+          </h2>
+        )}
+
+        {loggedInUser.length > 0 && (
+          <div className="hidden sm:flex">
+            <NavLink
+              to="/dashboard"
+              className="hidden md:flex space-x-4 items-center bg-gray-400 p-2 text-white rounded-md"
+            >
+              My Dashboard
+            </NavLink>
+          </div>
+        )}
       </div>
       {/* Mobile Navigation */}
       {isMobileMenuOpen && (
@@ -218,6 +232,14 @@ const Header = () => {
               >
                 Book Appointment
               </NavLink>
+            </li>
+            <li>
+              <div></div>
+            </li>
+            <li>
+              {loggedInUser.length > 0 && (
+                <h2 className="text-2xl text-blue-700">{loggedInUser}</h2>
+              )}
             </li>
             {/* If user is authenticated and logged in show logout button */}
             {loggedInUser.length > 0 && (

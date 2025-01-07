@@ -1,5 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { handleSuccess } from "../utils/utils";
 
 const BookAppointment = () => {
   const services = [
@@ -16,23 +19,45 @@ const BookAppointment = () => {
     "Public Speaking",
   ];
 
-  const [selectedService, setSelectedService] = useState("");
+  const [service, setService] = useState("");
   const [dateTime, setDateTime] = useState("");
   const [message, setMessage] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [agreed, setAgreed] = useState(false);
 
-  const handleSubmit = (e) => {
+  const formData = { service, dateTime, message, phoneNumber };
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+  }, [navigate]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Handle form submission logic
     console.log({
-      selectedService,
+      service,
       dateTime,
       message,
       phoneNumber,
-      agreed,
     });
-    alert("Appointment successfully booked!");
+    const token = localStorage.getItem("token");
+    const response = await axios.post(
+      "http://localhost:3000/bookings/book",
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log(response.data);
+    handleSuccess("Appointment successfully booked!");
   };
 
   return (
@@ -62,8 +87,8 @@ const BookAppointment = () => {
             </label>
             <select
               id="service"
-              value={selectedService}
-              onChange={(e) => setSelectedService(e.target.value)}
+              value={service}
+              onChange={(e) => setService(e.target.value)}
               className="w-full px-4 py-2 border rounded-lg shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             >

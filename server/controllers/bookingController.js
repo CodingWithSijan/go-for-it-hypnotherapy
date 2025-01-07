@@ -32,17 +32,16 @@ exports.createBooking = async (req, res) => {
 
 exports.getUserBookings = async (req, res) => {
   try {
-    const bookings = await Booking.find({ user: req.user.id }).sort({
-      dateTime: -1,
-    });
+    console.log("Authenticated user ID:", req.user._id);
+    const bookings = await Booking.find({ userID: req.user._id });
     const activeBookings = bookings.filter(
       (booking) => booking.status === "active"
     );
-    const pastBookings = bookings.filder(
-      (booking) => booking.statsu !== "active"
+    const pastBookings = bookings.filter(
+      (booking) => booking.status !== "active"
     );
 
-    res.json({ activeBookins, pastBookings });
+    res.json({ activeBookings, pastBookings });
   } catch (error) {
     res.status(500).json({ message: "Server Error", error: error.message });
   }
