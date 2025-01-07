@@ -1,19 +1,20 @@
-import  { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getDashboardStats } from '../.././services/api.js';
 import '../../styles/dashboard.css';
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
-    totalBlogs: 0,
     totalBookings: 0,
-    totalUsers: 0,
+    activeBookings: 0,
+    completedBookings: 0,
+    totalUsers: 0
   });
   const [recentBookings, setRecentBookings] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await getDashboardStats();
+        const data = await getDashboardStats();
         setStats(data.stats);
         setRecentBookings(data.recentBookings);
       } catch (error) {
@@ -26,17 +27,21 @@ const Dashboard = () => {
   return (
     <div className="dashboard-container">
       <header>
-        <h1>Welcome Stella 👋</h1>
+        <h1>Admin Dashboard</h1>
       </header>
-
+      
       <div className="stats-cards">
-        <div className="stat-card">
-          <h3>Total Blogs</h3>
-          <p>{stats.totalBlogs}</p>
-        </div>
         <div className="stat-card">
           <h3>Total Bookings</h3>
           <p>{stats.totalBookings}</p>
+        </div>
+        <div className="stat-card">
+          <h3>Active Bookings</h3>
+          <p>{stats.activeBookings}</p>
+        </div>
+        <div className="stat-card">
+          <h3>Completed Bookings</h3>
+          <p>{stats.completedBookings}</p>
         </div>
         <div className="stat-card">
           <h3>Total Users</h3>
@@ -44,22 +49,30 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <section className="recent-section">
+      <section className="bookings-section">
         <h2>Recent Bookings</h2>
-        <table className="recent-table">
+        <table className="bookings-table">
           <thead>
             <tr>
-              <th>Booking ID</th>
-              <th>Status</th>
+              <th>User Name</th>
+              <th>Service</th>
               <th>Date</th>
+              <th>Status</th>
+              <th>Phone</th>
             </tr>
           </thead>
           <tbody>
             {recentBookings.map((booking) => (
-              <tr key={booking.id}>
-                <td>{booking.id}</td>
-                <td>{booking.status}</td>
-                <td>{new Date(booking.date).toLocaleDateString()}</td>
+              <tr key={booking._id}>
+                <td>{booking.userName}</td>
+                <td>{booking.service}</td>
+                <td>{new Date(booking.dateTime).toLocaleDateString()}</td>
+                <td>
+                  <span className={`status-label status-${booking.status}`}>
+                    {booking.status}
+                  </span>
+                </td>
+                <td>{booking.phoneNumber}</td>
               </tr>
             ))}
           </tbody>

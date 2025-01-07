@@ -6,7 +6,7 @@ import Services from "./pages/Services";
 import Login from "./pages/Login";
 import Pricing from "./pages/Pricing";
 import BookAppointment from "./pages/BookAppontment";
-
+import { ToastContainer } from "react-toastify"
 const App = () => {
   return (
     <Router>
