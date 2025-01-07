@@ -5,8 +5,11 @@ import Homepage from "./pages/Homepage";
 import Services from "./pages/Services";
 import Login from "./pages/Login";
 import Pricing from "./pages/Pricing";
-import BookAppointment from "./pages/BookAppontment";
+import BookAppointment from "./pages/BookAppointment";
 import { ToastContainer } from "react-toastify"
+import Dashboard from "./pages/Dashboard";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminLogin from "./pages/admin/AdminLogin";
 const App = () => {
   return (
     <Router>
@@ -18,18 +21,23 @@ const App = () => {
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/book-appointment" element={<BookAppointment />} />
+        <Route path="/book_appointment" element={<BookAppointment />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         
         {/* Admin routes with sidebar */}
         <Route path="/admin/*" element={
-          <AdminLayout>
+          
             <Routes>
-              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="adminlogin" element={<AdminLogin/>}/>
               {/* <Route path="bookings" element={<Booking />} />
               <Route path="profile" element={<Profile />} /> */}
             </Routes>
-          </AdminLayout>
+          
         } />
+
+        
+
       </Routes>
     </Router>
   );

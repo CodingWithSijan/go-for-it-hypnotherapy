@@ -1,36 +1,33 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import bannerImage from "../assets/landing_page/banner_1.jpg";
 import { NavLink } from "react-router-dom";
-import { handleSuccess, handleError } from "../utils/utils";
-import { validateData } from "../utils/validationHelper";
+import bannerImage from "../../assets/landing_page/banner_1.jpg";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { handleSuccess, handleError } from "../../utils/utils";
 
-const SignUp = () => {
-  // useState hook form setting formData
+const AdminLogin = () => {
   const [formData, setFormData] = useState({
-    name: "",
     email: "",
     password: "",
-    phone: "",
   });
-  // Error state
   const [errors, setErrors] = useState({});
-  // changing the signup button to "signing up... and disabling it while submitting"
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const navigate = useNavigate();
-  // getting input from user
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setErrors({ ...errors, [e.target.name]: "" });
   };
 
-  //Validation data using validationHelper.js from utils
   const validate = () => {
-    return validateData(formData);
+    const newErrors = {};
+    if (!formData.email) newErrors.email = "Email is required";
+    if (!formData.password) newErrors.password = "Password is required";
+    return newErrors;
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
@@ -38,26 +35,31 @@ const SignUp = () => {
       setErrors(validationErrors);
       return;
     }
-    // sending data to backend using axios
+
     try {
       const response = await axios.post(
-        "http://localhost:3000/auth/signup",
+        "http://localhost:3000/auth/login",
         formData
       );
       setIsSubmitting(true);
-      console.log("Response: ", response.data);
-      handleSuccess("User Registered Successfully...Redirecting...");
-
-      setTimeout(() => {
-        navigate("/login");
-      }, 1000);
-    } catch (error) {
-      console.log("Error: ", error);
-      if (error.response.status === 409) {
-        handleError(error.response.data.message);
+      const { success, message, jwtToken, name, email } = await response.data;
+      console.log("Response: " + message);
+      if (success) {
+        handleSuccess(message);
+        localStorage.setItem("token", jwtToken);
+        localStorage.setItem("loggedInUser", name);
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      } else {
+        handleError("Invalid email or password!");
+        setIsSubmitting(false);
       }
+    } catch (error) {
+      console.error(error);
+      handleError("Invalid email or password!");
+    } finally {
       setIsSubmitting(false);
-      handleError("Failed to register. Please try again");
     }
   };
 
@@ -74,29 +76,15 @@ const SignUp = () => {
           onSubmit={handleSubmit}
           className="h-full flex flex-col justify-center space-y-6"
         >
-          <h2 className="text-3xl mt-6 font-extrabold text-center text-blue-700 mb-4">
-            Create Your Account
+            <h1 className="text-3xl text-center text-blue-600 ">
+                Admin Login
+            </h1>
+          <h2 className="text-3xl font-extrabold text-center text-blue-700 mb-4">
+            Welcome Back!
           </h2>
           <p className="text-center text-gray-600">
-            Sign up to get started with our services!
+            Log in to access your account.
           </p>
-
-          {/* Name Input */}
-          <div>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Full Name"
-              className={`w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                errors.name ? "border-red-500" : "border-gray-300"
-              }`}
-            />
-            {errors.name && (
-              <p className="text-red-500 text-sm mt-1">{errors.name}</p>
-            )}
-          </div>
 
           {/* Email Input */}
           <div>
@@ -132,31 +120,13 @@ const SignUp = () => {
             )}
           </div>
 
-          {/* Phone Input */}
+          {/* Forgot Password Link */}
           <div>
-            <input
-              type="tel"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              placeholder="Phone Number (0421737089)"
-              className={`w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                errors.phone ? "border-red-500" : "border-gray-300"
-              }`}
-            />
-            {errors.phone && (
-              <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
-            )}
+            <NavLink to="/forgot-password" className="text-blue-500 text-sm">
+              Forgot Password?
+            </NavLink>
           </div>
-          {/* Already have an account login */}
-          <div>
-            <p>
-              Already have an account
-              <NavLink to="/login">
-                <b className="text-blue-500 text-md ml-2">Login</b>
-              </NavLink>
-            </p>
-          </div>
+
           {/* Submit Button */}
           <div>
             <motion.button
@@ -165,10 +135,21 @@ const SignUp = () => {
                 isSubmitting ? "opacity-50 cursor-not-allowed" : ""
               }`}
               whileHover={{ scale: 1.05 }}
+              disabled={isSubmitting}
             >
-              {isSubmitting ? "Signing Up..." : "Sign Up"}
+              {isSubmitting ? "Logging In..." : "Log In"}
             </motion.button>
           </div>
+
+          {/* Don't have an account
+          <div className="text-center">
+            <p>
+              Don't have an account?
+              <NavLink to="/signup">
+                <b className="text-blue-500 text-md ml-2">Sign Up</b>
+              </NavLink>
+            </p>
+          </div> */}
         </form>
       </motion.div>
 
@@ -181,7 +162,7 @@ const SignUp = () => {
       >
         <img
           src={bannerImage}
-          alt="Signup Banner"
+          alt="Login Banner"
           className="h-full w-full object-cover"
           loading="lazy"
         />
@@ -190,4 +171,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default AdminLogin;
