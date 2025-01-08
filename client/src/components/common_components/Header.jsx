@@ -131,7 +131,7 @@ const Header = () => {
         )}
         {loggedInUser.length > 0 && (
           <button
-            className="block px-4 py-2 text-red-800 rounded hover:text-red-400"
+            className="hidden sm:block px-4 py-2 text-red-800 rounded hover:text-red-400"
             onClick={handleLogout}
           >
             Logout
