@@ -10,6 +10,9 @@ import { ToastContainer } from "react-toastify"
 import Dashboard from "./pages/Dashboard";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminLogin from "./pages/admin/AdminLogin";
+import ProtectedRoutes from "./utils/ProtectedRoutes";
+
+
 const App = () => {
   return (
     <Router>
@@ -21,23 +24,25 @@ const App = () => {
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/book_appointment" element={<BookAppointment />} />
-        <Route path="/dashboard" element={<Dashboard />} />
         
-        {/* Admin routes with sidebar */}
-        <Route path="/admin/*" element={
-          
-            <Routes>
+        {/* Protected User Routes */}
+        <Route element={<ProtectedRoutes />}>
+          <Route path="/book_appointment" element={<BookAppointment />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
+
+       {/* Admin Routes With Dashboard */}
+       <Route path="/admin/*" element={
+          <Routes>
+            <Route path="adminlogin" element={<AdminLogin/>}/>
+            {/* Protected Admin Routes */}
+            <Route element={<ProtectedRoutes />}>
               <Route path="dashboard" element={<AdminDashboard />} />
-              <Route path="adminlogin" element={<AdminLogin/>}/>
               {/* <Route path="bookings" element={<Booking />} />
               <Route path="profile" element={<Profile />} /> */}
-            </Routes>
-          
+            </Route>
+          </Routes>
         } />
-
-        
-
       </Routes>
     </Router>
   );
