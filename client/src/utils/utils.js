@@ -15,7 +15,7 @@ const handleSuccess = (msg) => {
 const handleError = (msg) => {
   toast.error(msg, {
     position: "top-center",
-    autoClose: 3000,
+    autoClose: 2000,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: false,

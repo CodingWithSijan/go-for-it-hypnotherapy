@@ -15,42 +15,45 @@ const AdminDashboard = () => {
   const [selectedEnquiry, setSelectedEnquiry] = useState(null);
   const [emailMessage, setEmailMessage] = useState("");
   const [adminEmail, setAdminEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("adminToken");
 
     if (!token) {
       window.location.href = "/admin/login";
-    } else {
-      const fetchAdminDetails = async () => {
-        try {
-          const response = await axios.get(
-            "http://localhost:3000/api/admin/verify-token",
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-          setAdminEmail(response.data.email);
-          setAdminEmail(localStorage.getItem("adminName"));
-        } catch (error) {
-          console.error("Failed to fetch admin details:", error);
-          window.location.href = "/admin/login";
-        }
-      };
-
-      fetchAdminDetails();
+      return;
     }
+    const fetchAdminDetails = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/api/admin/verify-token",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setAdminEmail(response.data.email);
+        setAdminEmail(localStorage.getItem("adminName"));
+      } catch (error) {
+        console.error("Failed to fetch admin details:", error);
+        window.location.href = "/admin/login";
+      }
+    };
+    fetchAdminDetails();
 
     const fetchEnquiries = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/enquiries");
+        const response = await axios.get(
+          "http://localhost:3000/api/enquiries",
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
         const pending = response.data.filter((enquiry) => !enquiry.completed);
         const completed = response.data.filter((enquiry) => enquiry.completed);
         setEnquiries(pending);
         setCompletedEnquiries(completed);
-      } catch (error) {
+      } catch {
         toast.error("Failed to fetch enquiries");
       }
     };
@@ -59,10 +62,14 @@ const AdminDashboard = () => {
   }, []);
 
   const markAsCompleted = async (id) => {
+    const token = localStorage.getItem("adminToken");
+    console.log("Token is:", token);
     try {
-      await axios.patch(
-        `http://localhost:3000/api/admin/enquiries/${id}/complete`
-      );
+      await axios.patch(`http://localhost:3000/api/admin/enquiries/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       toast.success("Enquiry marked as completed");
       setEnquiries((prev) => prev.filter((enquiry) => enquiry._id !== id));
       const completedEnquiry = enquiries.find((enquiry) => enquiry._id === id);
@@ -70,7 +77,7 @@ const AdminDashboard = () => {
         ...prev,
         { ...completedEnquiry, completed: true },
       ]);
-    } catch (error) {
+    } catch {
       toast.error("Failed to mark enquiry as completed");
     }
   };
@@ -87,6 +94,11 @@ const AdminDashboard = () => {
   };
 
   const sendEmail = async () => {
+    if (!emailMessage.trim()) {
+      toast.error("Email message cannot be empty");
+      return;
+    }
+    setIsSubmitting(true);
     try {
       await axios.post("http://localhost:3000/api/send-email", {
         email: selectedEnquiry.email,
@@ -94,8 +106,12 @@ const AdminDashboard = () => {
       });
       toast.success("Email sent successfully");
       closeModal();
-    } catch (error) {
+      setTimeout(() => {
+        setIsSubmitting(false);
+      }, 3000);
+    } catch {
       toast.error("Failed to send email");
+      setIsSubmitting(false);
     }
   };
 
@@ -153,6 +169,9 @@ const AdminDashboard = () => {
                         Message
                       </th>
                       <th className="py-2 px-4 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">
+                        Date & Time
+                      </th>
+                      <th className="py-2 px-4 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">
                         Actions
                       </th>
                     </tr>
@@ -174,6 +193,9 @@ const AdminDashboard = () => {
                         </td>
                         <td className="py-2 px-4 border-b border-gray-200">
                           {enquiry.message}
+                        </td>
+                        <td className="py-2 px-4 border-b border-gray-200">
+                          {new Date(enquiry.createdAt).toLocaleString()}
                         </td>
                         <td className="py-2 px-4 border-b border-gray-200">
                           <button
@@ -223,6 +245,9 @@ const AdminDashboard = () => {
                         Message
                       </th>
                       <th className="py-2 px-4 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">
+                        Date & Time
+                      </th>
+                      <th className="py-2 px-4 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">
                         Actions
                       </th>
                     </tr>
@@ -244,6 +269,9 @@ const AdminDashboard = () => {
                         </td>
                         <td className="py-2 px-4 border-b border-gray-200">
                           {enquiry.message}
+                        </td>
+                        <td className="py-2 px-4 border-b border-gray-200">
+                          {new Date(enquiry.createdAt).toLocaleString()}
                         </td>
                         <td className="py-2 px-4 border-b border-gray-200">
                           <button
@@ -291,8 +319,9 @@ const AdminDashboard = () => {
           <button
             className="bg-blue-600 text-white py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
             onClick={sendEmail}
+            disabled={isSubmitting}
           >
-            Send Email
+            {isSubmitting ? "Sending..." : "Send Email"}
           </button>
         </div>
       </Modal>

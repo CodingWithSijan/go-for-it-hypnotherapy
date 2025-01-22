@@ -15,10 +15,10 @@ const Footer = () => {
               Moonee Ponds VIC 3039
             </li>
             <li className="flex items-center">
-              <span className="mr-2">📧</span> info@goforithypnotherapy.com
+              <span className="mr-2">📧</span> stellahypno@hotmail.com
             </li>
             <li className="flex items-center">
-              <span className="mr-2">📞</span> 0415 876 722
+              <span className="mr-2">📞</span> <Link>0415876722</Link>
             </li>
           </ul>
         </div>
@@ -45,7 +45,7 @@ const Footer = () => {
               </Link>
             </li>
             <li>
-              <Link to="/contact" className="hover:text-indigo-600">
+              <Link to="/contactus" className="hover:text-indigo-600">
                 Contact
               </Link>
             </li>
@@ -64,14 +64,7 @@ const Footer = () => {
             >
               <FaFacebook />
             </a>
-            <a
-              href="https://www.linkedin.com/in/stella-dichiera-9a181117/?originalSubdomain=aum"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-2xl hover:text-blue-700"
-            >
-              <FaLinkedin />
-            </a>
+
             <a
               href="https://youtu.be/mMNEDv5ilrE"
               target="_blank"

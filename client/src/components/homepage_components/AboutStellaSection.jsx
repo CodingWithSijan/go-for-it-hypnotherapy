@@ -1,4 +1,4 @@
-import stellaImage from "../../assets/landing_page/stella.jpg";
+import stellaImage from "../../assets/stella_profile_picture.jpg";
 
 const StellaIntroduction = () => {
   const hypnotherapyBenefits = [

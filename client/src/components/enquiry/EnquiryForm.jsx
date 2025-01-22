@@ -2,8 +2,8 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
-import backgroundImg from "../../assets/landing_page/image_1.png";
-
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 const services = [
   "Quit Smoking",
   "Weight Loss (Virtual Gastric Banding)",
@@ -28,29 +28,45 @@ const EnquiryForm = () => {
     reset,
   } = useForm();
 
+  const [buttonText, setButtonText] = useState("Submit");
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
+
   const onSubmit = async (data) => {
+    setButtonText("Submitting...");
+    setLoading(true);
     try {
       await axios.post("http://localhost:3000/api/enquiry", data);
       toast.success("Enquiry submitted successfully!");
       reset();
+      setButtonText("Submit");
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
     } catch (error) {
-      toast.error("Failed to submit enquiry. Please try again.");
+      toast.error(
+        `Failed to submit enquiry: ${error.message}. Please try again.`
+      );
+      setButtonText("Submit");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-cyan-500 to-cyan-100 py-16 bg-no-repeat bg-cover bg-center bg-fixed">
+    <div className="min-h-screen bg-gradient-to-b from-yellow-300 via-gray-300 to-gray-400 py-16 bg-no-repeat bg-cover bg-center bg-fixed">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-4xl font-bold text-center text-yellow-600 mb-8">
+        <h2 className="text-4xl font-bold text-center text-white mb-8">
           Make an Enquiry
         </h2>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="max-w-lg mx-auto bg-white p-16 rounded-lg shadow-lg"
+          className="max-w-lg mx-auto bg-white p-12 rounded-lg shadow-2xl"
         >
           <div className="mb-4">
             <label
-              className="block text-gray-700 font-bold mb-2"
+              className="block text-cyan-500 font-bold mb-2"
               htmlFor="name"
             >
               Name
@@ -69,7 +85,7 @@ const EnquiryForm = () => {
           </div>
           <div className="mb-4">
             <label
-              className="block text-gray-700 font-bold mb-2"
+              className="block text-cyan-500 font-bold mb-2"
               htmlFor="phone"
             >
               Phone Number
@@ -90,7 +106,7 @@ const EnquiryForm = () => {
           </div>
           <div className="mb-4">
             <label
-              className="block text-gray-700 font-bold mb-2"
+              className="block text-cyan-500 font-bold mb-2"
               htmlFor="email"
             >
               Email Address
@@ -110,14 +126,14 @@ const EnquiryForm = () => {
               }`}
             />
             {errors.email && (
-              <p className="text-red-500 text-sm mt-1">
+              <p className="text-cyan-500 text-sm mt-1">
                 {errors.email.message}
               </p>
             )}
           </div>
           <div className="mb-4">
             <label
-              className="block text-gray-700 font-bold mb-2"
+              className="block text-cyan-500 font-bold mb-2"
               htmlFor="service"
             >
               Service
@@ -143,7 +159,7 @@ const EnquiryForm = () => {
           </div>
           <div className="mb-4">
             <label
-              className="block text-gray-700 font-bold mb-2"
+              className="block text-cyan-500 font-bold mb-2"
               htmlFor="message"
             >
               Message
@@ -165,9 +181,14 @@ const EnquiryForm = () => {
           <div className="text-center">
             <button
               type="submit"
-              className="bg-blue-600 text-white py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+              className={`bg-yellow-500 text-cyan-600 ${
+                loading
+                  ? "cursor-wait bg-yellow-300 hover:bg-yellow-300"
+                  : "cursor-pointer"
+              } font-bold py-2 px-4 w-full rounded-lg shadow-md hover:bg-blue-700 hover:text-white transition duration-300`}
+              disabled={loading}
             >
-              Submit
+              {loading ? "Submitting..." : buttonText}
             </button>
           </div>
         </form>

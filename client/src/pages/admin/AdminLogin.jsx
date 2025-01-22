@@ -5,18 +5,33 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const AdminLogin = () => {
+  const navigate = useNavigate();
+
   useEffect(() => {
-    const token = localStorage.getItem("adminToken");
-    if (token) {
-      navigate("/admin/dashboard");
-    }
-  }, []);
+    const verifyToken = async () => {
+      const token = localStorage.getItem("adminToken");
+      if (token) {
+        try {
+          await axios.get("http://localhost:3000/api/admin/verify-token", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          navigate("/admin/dashboard");
+        } catch (error) {
+          console.error("Token verification failed:", error);
+          localStorage.removeItem("adminToken");
+          localStorage.removeItem("adminName");
+        }
+      }
+    };
+    verifyToken();
+  }, [navigate]);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     try {
