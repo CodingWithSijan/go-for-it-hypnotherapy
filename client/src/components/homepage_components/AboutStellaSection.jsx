@@ -1,4 +1,3 @@
-// src/components/homepage_components/StellaIntroduction.jsx
 import stellaImage from "../../assets/landing_page/stella.jpg";
 
 const StellaIntroduction = () => {
@@ -29,39 +28,43 @@ const StellaIntroduction = () => {
 
   return (
     <section className="py-16 bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-100 text-[#1D2C60]">
-      <div className="container mx-auto text-center px-6">
+      <div className="container mx-auto px-6 lg:px-12">
         {/* Title Section */}
-        <h2 className="text-4xl md:text-4xl font-bold mb-6 text-[#1D2C60] animate__animated animate__fadeIn">
+        <h2 className="text-4xl md:text-5xl font-extrabold mb-10 text-center text-[#1D2C60] animate__animated animate__fadeIn">
           Meet Stella Dichiera
         </h2>
 
-        {/* Image Section */}
-        <div className="flex justify-center mb-8">
-          <img
-            src={stellaImage}
-            alt="Stella Dichiera"
-            className="rounded-full w-40 h-40 mb-4 border-8 border-white shadow-lg transition-transform duration-500 ease-in-out transform hover:scale-110 hover:rotate-6 hover:shadow-2xl"
-          />
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
+          {/* Image Section */}
+          <div className="flex justify-center lg:w-1/2 animate__animated animate__fadeInLeft">
+            <img
+              src={stellaImage}
+              alt="Stella Dichiera"
+              className="rounded-full w-56 h-56 lg:w-72 lg:h-72 border-8 border-white shadow-lg transition-transform duration-500 ease-in-out transform hover:scale-110 hover:rotate-6 hover:shadow-2xl"
+            />
+          </div>
+
+          {/* Introduction Text */}
+          <div className="text-center lg:text-left lg:w-1/2 animate__animated animate__fadeInRight">
+            <p className="text-lg lg:text-xl text-gray-700 leading-relaxed mb-6">
+              Stella Dichiera is a Clinical Hypnotherapist who can help you
+              today! Hypnotherapy is an increasingly popular modality for
+              individuals who are looking to improve themselves and make
+              positive changes in their lives.
+            </p>
+          </div>
         </div>
 
-        {/* Introduction Text */}
-        <p className="mt-4 mx-auto text-lg text-gray-700 max-w-3xl animate__animated animate__fadeIn animate__delay-1s">
-          Stella Dichiera is a Clinical Hypnotherapist who can help you today!
-          Hypnotherapy is an increasingly popular modality for individuals who
-          are looking to improve themselves and make positive changes in their
-          lives.
-        </p>
-
         {/* Hypnotherapy Benefits */}
-        <div className="mt-12">
-          <h3 className="text-3xl font-semibold text-[#1D2C60] mb-6 animate__animated animate__fadeIn animate__delay-2s">
+        <div className="mt-16">
+          <h3 className="text-3xl font-bold text-center text-[#1D2C60] mb-8 animate__animated animate__fadeIn animate__delay-1s">
             Hypnotherapy can assist with:
           </h3>
-          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-lg text-gray-600">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {hypnotherapyBenefits.map((benefit, index) => (
               <li
                 key={index}
-                className="bg-white text-sm p-2 rounded-lg shadow-xl transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl hover:bg-gradient-to-r from-purple-500 to-blue-500 text-gray-500 hover:text-white cursor-pointer"
+                className="bg-white p-4 text-center text-base lg:text-lg rounded-lg shadow-xl transition-transform duration-300 ease-in-out transform "
               >
                 {benefit}
               </li>
@@ -70,15 +73,15 @@ const StellaIntroduction = () => {
         </div>
 
         {/* Stella's Qualifications */}
-        <div className="mt-12">
-          <h3 className="text-3xl font-semibold text-[#1D2C60] mb-6 animate__animated animate__fadeIn animate__delay-3s">
+        <div className="mt-16">
+          <h3 className="text-3xl font-bold text-center text-[#1D2C60] mb-8 animate__animated animate__fadeIn animate__delay-2s">
             Stella&apos;s Qualifications:
           </h3>
-          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-lg text-gray-600">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {qualifications.map((qualification, index) => (
               <li
                 key={index}
-                className="bg-white p-2 text-sm rounded-lg shadow-xl transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl hover:bg-gradient-to-r from-purple-500 to-blue-500 text-gray-500 hover:text-white cursor-pointer"
+                className="bg-white p-4 text-center text-base lg:text-lg rounded-lg shadow-xl transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl "
               >
                 {qualification}
               </li>

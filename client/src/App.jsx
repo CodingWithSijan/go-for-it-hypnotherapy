@@ -1,12 +1,16 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import SignUp from "./pages/SignUp";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import Homepage from "./pages/Homepage";
 import Services from "./pages/Services";
-import Login from "./pages/Login";
 import Pricing from "./pages/Pricing";
-import BookAppointment from "./pages/BookAppontment";
-import Dashboard from "./pages/Dashboard";
+import Enquiry from "./pages/Enquiry";
+import ContactUs from "./pages/ContactUs";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminLogin from "./pages/admin/AdminLogin";
+import AdminSignup from "./pages/admin/AdminSignup";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   return (
@@ -14,12 +18,13 @@ const App = () => {
       <ToastContainer />
       <Routes>
         <Route path="/" element={<Homepage />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/login" element={<Login />} />
         <Route path="/services" element={<Services />} />
         <Route path="/pricing" element={<Pricing />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/book_appointment" element={<BookAppointment />} />
+        <Route path="/enquiry" element={<Enquiry />} />
+        <Route path="/contactus" element={<ContactUs />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/signup" element={<AdminSignup />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
       </Routes>
     </Router>
   );

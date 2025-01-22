@@ -1,5 +1,5 @@
-import { useState } from "react";
-import stellaImage from "../assets/landing_page/stella.jpg";
+import { FaCalendarAlt } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
 import Header from "../components/common_components/Header";
 import Footer from "../components/common_components/Footer";
 import { motion } from "framer-motion";
@@ -30,124 +30,136 @@ const Services = () => {
     {
       title: "Anger Management",
       details:
-        "Learn how to control your anger and manage emotions effectively.",
+        "Learn to manage and control your anger through specialized hypnotherapy techniques.",
     },
     {
       title: "Fears & Phobias",
       details:
-        "Overcome your fears and phobias through specialized hypnotherapy techniques.",
+        "Overcome your fears and phobias with effective hypnotherapy sessions.",
     },
     {
       title: "Loss & Grief",
       details:
-        "Find peace and healing while navigating through loss and grief.",
+        "Find peace and healing through hypnotherapy during times of loss and grief.",
     },
     {
       title: "Motivation",
       details:
-        "Rediscover your drive and focus to achieve your personal and professional goals.",
+        "Increase your motivation and achieve your goals with hypnotherapy.",
     },
     {
       title: "Stress & Anxiety",
       details:
-        "Relieve stress and anxiety with calming and effective hypnotherapy sessions.",
+        "Reduce stress and anxiety with calming and effective hypnotherapy techniques.",
     },
     {
       title: "Depression",
       details:
-        "Improve your mental health and overcome depression with Stella's guidance.",
+        "Manage and alleviate symptoms of depression with supportive hypnotherapy.",
     },
     {
       title: "Public Speaking",
       details:
-        "Conquer your fear of public speaking and develop confidence in front of an audience.",
+        "Gain confidence and improve your public speaking skills through hypnotherapy.",
+    },
+    {
+      title: "Other",
+      details:
+        "Explore other areas where hypnotherapy can help you achieve positive change.",
+    },
+    {
+      title: "Follow Up Session",
+      details:
+        "Continue your progress with follow-up hypnotherapy sessions tailored to your needs.",
     },
   ];
 
-  const [expandedIndex, setExpandedIndex] = useState(null);
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3,
+        delayChildren: 0.2,
+      },
+    },
+  };
 
-  const toggleDetails = (index) => {
-    setExpandedIndex(index === expandedIndex ? null : index);
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.3,
+        ease: "easeOut",
+      },
+    },
   };
 
   return (
-    <>
+    <div>
       <Header />
-      <div className="bg-gradient-to-r from-blue-100 via-white to-blue-100 min-h-screen py-16">
-        {/* Hero Section */}
-        <section className="text-center mb-12">
-          <motion.h1
-            className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-teal-500 mb-6"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            Unlock Your Potential with Stella Dichiera
-          </motion.h1>
-          <p className="text-lg text-gray-700 max-w-2xl mx-auto">
-            Stella is a Clinical Hypnotherapist dedicated to helping you
-            transform your life. Explore our specialized services and take the
-            first step toward positive change.
-          </p>
-          <motion.a
-            href="/book_appointment"
-            className="mt-8 inline-block bg-blue-600 text-white py-3 px-6 rounded-lg shadow-lg hover:bg-blue-700 hover:shadow-xl transform hover:scale-105 transition duration-300"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-          >
-            Book Your Appointment
-          </motion.a>
-        </section>
-
-        {/* Services Section */}
-        <section className="px-6">
-          <motion.h3
-            className="text-3xl font-bold text-blue-700 text-center mb-10"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+      <motion.section
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+        className="py-16 bg-gradient-to-b from-blue-50 text-white"
+      >
+        <motion.div
+          className="container mx-auto px-6 lg:px-12"
+          variants={containerVariants}
+        >
+          {/* Title Section */}
+          <motion.h2
+            className="text-4xl md:text-5xl text-yellow-600 font-bold mb-10 text-center"
+            variants={itemVariants}
           >
             Our Services
-          </motion.h3>
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-            initial="hidden"
-            animate="visible"
-            variants={{
-              hidden: { opacity: 0 },
-              visible: {
-                opacity: 1,
-                transition: { staggerChildren: 0.1 },
-              },
-            }}
-          >
+          </motion.h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service, index) => (
               <motion.div
                 key={index}
-                className="bg-white shadow-md rounded-lg p-6 text-center border-2 border-transparent hover:border-blue-500 transform hover:scale-105 transition duration-300"
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: { opacity: 1, y: 0 },
-                }}
-                onClick={() => toggleDetails(index)}
+                className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+                variants={itemVariants}
+                whileHover={{ y: -5 }}
               >
-                <div className="flex items-center justify-center mb-4">
-                  <CheckCircleIcon className="w-8 h-8 text-blue-500" />
-                </div>
-                <h4 className="text-lg font-semibold text-blue-800">
+                <motion.div
+                  className="text-4xl text-indigo-600 mb-4"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <CheckCircleIcon className="h-10 w-10 text-yellow-600" />
+                </motion.div>
+                <h3 className="text-xl font-semibold mb-2 text-yellow-600">
                   {service.title}
-                </h4>
-                {expandedIndex === index && (
-                  <p className="mt-4 text-gray-600">{service.details}</p>
-                )}
+                </h3>
+                <p className="text-gray-600">{service.details}</p>
               </motion.div>
             ))}
+          </div>
+
+          {/* CTA Button */}
+          <motion.div
+            className="mt-12 text-center"
+            variants={itemVariants}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <NavLink
+              to="/enquiry"
+              className="inline-flex items-center px-8 py-4 text-lg font-semibold text-indigo-900 bg-white rounded-full shadow-xl hover:bg-gray-100 transform transition-all duration-300 hover:shadow-2xl"
+            >
+              <FaCalendarAlt className="mr-2" />
+              Make an Enquiry Now
+            </NavLink>
           </motion.div>
-        </section>
-      </div>
+        </motion.div>
+      </motion.section>
       <Footer />
-    </>
+    </div>
   );
 };
 

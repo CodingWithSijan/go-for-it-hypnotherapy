@@ -5,30 +5,34 @@ import { motion } from "framer-motion";
 const Pricing = () => {
   const pricingPlans = [
     {
-      title: "Quit Smoking / Quit Vaping",
+      title: "Initial Consultation",
       price: "$150",
-      duration: "1 hour 30 minutes",
+      duration: "2 hours",
       description:
-        "Effective hypnotherapy to help you quit smoking or vaping for good.",
+        "2 hours consultation on most issues such as Anxiety, Insomnia, Phobias, Relationship etc.",
+    },
+    {
+      title: "Follow Up Sessions",
+      price: "$80",
+      duration: "1 hour 30 minutes",
+      description: "Any follow up sessions for one hour (on any subject)",
+    },
+    {
+      title: "Quit Smoking or Quit Vaping",
+      price: "$300",
+      duration: "2 hours",
+      description: "2 hour consultation for Quit Smoking or Quit Vaping",
     },
     {
       title: "Weight Loss",
-      price: "$150",
-      duration: "1 hour 30 minutes",
-      description: "Personalized hypnotherapy for sustainable weight loss.",
+      price: "$320",
+      duration: "4 hours",
+      description: "4 one hour sessions for Weight Loss",
     },
     {
-      title: "Anxiety / Stress Management",
-      price: "$150",
-      duration: "1 hour 30 minutes",
-      description:
-        "Overcome anxiety and manage stress with calming techniques.",
-    },
-    {
-      title: "Group Sessions",
-      price: "Contact for pricing",
-      duration: "Flexible",
-      description: "Join group sessions for weight loss and support programs.",
+      title: "For Other Services",
+      price: "Contact Stella",
+      description: "For any other services, please contact Stella for a quote.",
     },
   ];
 
@@ -43,7 +47,7 @@ const Pricing = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h1 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-teal-500 mb-8">
+          <h1 className="text-5xl font-extrabold text-transparent text-yellow-600 bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-500 mb-4">
             Affordable Pricing Plans
           </h1>
           <p className="text-lg text-gray-700 max-w-2xl mx-auto">
@@ -69,62 +73,34 @@ const Pricing = () => {
             {pricingPlans.map((plan, index) => (
               <motion.div
                 key={index}
-                className="bg-white shadow-md rounded-lg p-8 text-center transform hover:scale-105 transition duration-300 border-2 border-transparent hover:border-blue-500"
+                className="bg-white shadow-md rounded-lg p-8 text-center transform hover:scale-105 transition duration-300 border-2 border-transparent hover:border-blue-500 flex flex-col justify-between"
                 variants={{
                   hidden: { opacity: 0, y: 20 },
                   visible: { opacity: 1, y: 0 },
                 }}
               >
-                <h2 className="text-2xl font-bold text-blue-800 mb-4">
-                  {plan.title}
-                </h2>
-                <p className="text-4xl font-extrabold text-blue-600 mb-2">
-                  {plan.price}
-                </p>
-                <p className="text-gray-600 mb-4">{plan.duration}</p>
-                <p className="text-gray-700">{plan.description}</p>
+                <div>
+                  <h2 className="text-2xl font-bold text-yellow-600 mb-4">
+                    {plan.title}
+                  </h2>
+                  <p className="text-4xl font-extrabold text-yellow-600 mb-2">
+                    {plan.price}
+                  </p>
+                  <p className="text-gray-600 mb-4">{plan.duration}</p>
+                  <p className="text-gray-700">{plan.description}</p>
+                </div>
                 <motion.a
-                  href="/book"
-                  className="inline-block mt-6 bg-blue-600 text-white py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 hover:shadow-lg transform hover:scale-105 transition duration-300"
+                  href="/enquiry"
+                  target="_blank"
+                  className="inline-block mt-6 bg-yellow-500 text-white font-bold leading-tight  drop-shadow-[1px_1px_1px_rgba(0,0,0,1)] py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 hover:shadow-lg transform hover:scale-105 transition duration-300"
                   whileHover={{ scale: 1.1 }}
                 >
-                  Book Now
+                  Enquire Now
                 </motion.a>
               </motion.div>
             ))}
           </motion.div>
         </section>
-
-        {/* FAQ Section */}
-        <motion.section
-          className="mt-16 text-center"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <h3 className="text-3xl font-semibold text-blue-800 mb-6">
-            Frequently Asked Questions
-          </h3>
-          <div className="max-w-4xl mx-auto text-gray-700">
-            <p className="mb-4">
-              <strong>Q: What happens during a session?</strong>
-              <br />
-              A: Stella will guide you through a relaxing and transformative
-              hypnotherapy process tailored to your needs.
-            </p>
-            <p className="mb-4">
-              <strong>Q: Are there discounts for group sessions?</strong>
-              <br />
-              A: Yes, please contact Stella directly for group session pricing.
-            </p>
-            <p>
-              <strong>Q: How can I book a session?</strong>
-              <br />
-              A: Use the "Book Now" button above or call Stella directly for
-              assistance.
-            </p>
-          </div>
-        </motion.section>
       </div>
       <Footer />
     </>

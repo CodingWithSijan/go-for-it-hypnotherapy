@@ -1,267 +1,169 @@
-// src/components/Header.js
-
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import {
-  FaBars,
-  FaTimes,
-  FaSignInAlt,
-  FaUserPlus,
-  FaCalendarAlt,
-} from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
-import navbar_logo from "../../assets/logo.png";
+import { FaBars, FaTimes, FaCalendarAlt, FaChevronDown } from "react-icons/fa";
+import navbar_logo from "../../assets/logo.jpg";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [loggedInUser, setLoggedInUser] = useState("");
+  const [activeDropdown, setActiveDropdown] = useState(null);
 
-  useEffect(() => {
-    setLoggedInUser(localStorage.getItem("loggedInUser") || "");
-  }, []);
+  const navItems = [
+    { to: "/", label: "HOME" },
+    {
+      to: "/services",
+      label: "SERVICES",
+    },
+    { to: "/pricing", label: "PRICING" },
+    { to: "/contactus", label: "CONTACT US" },
+  ];
+  const navLinkStyles = `
+  relative px-4 py-2 text-white font-medium
+  before:content-['']
+  before:absolute
+  before:bottom-0
+  before:left-0
+  before:w-full
+  before:h-0.5
+  before:bg-white
+  before:scale-x-0
+  before:transition-transform
+  before:duration-300
+  hover:before:scale-x-100
+  transition-all
+  duration-300
+  hover:text-yellow-200
+  transform
+  hover:-translate-y-0.5
+`;
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen((prev) => !prev);
-  };
-
-  const navigate = useNavigate();
-  // logout button handler
-  const handleLogout = () => {
-    localStorage.removeItem("loggedInUser");
-    localStorage.removeItem("token");
-    setTimeout(() => {
-      setLoggedInUser("");
-      navigate("/login");
-    }, 1000);
-  };
-  // common styles for links
-  const navLinkStyles = "text-gray-600 hover:text-gray-900";
-  const activeStyles = "text-blue-600 font-semibold";
-
+  const activeStyles = `
+  text-yellow-200
+  before:scale-x-100
+`;
+  // Updated styles with new background
   return (
-    <header className="bg-gray-100 shadow-md fixed w-full z-50">
-      <div className="container mx-auto flex justify-between items-center py-2 px-6">
-        {/* Logo */}
+    <header className="bg-gradient-to-r from-teal-600 via-cyan-700 to-teal-600  shadow-lg sticky w-full z-50">
+      <div className="container mx-auto flex justify-between items-center py-4 px-6">
         <NavLink
           to="/"
-          className="text-2xl font-bold text-gray-800"
-          onClick={() => setIsMobileMenuOpen(false)}
+          className="transform hover:scale-105 transition-transform duration-300"
         >
-          <img
-            src={navbar_logo}
-            alt="Go For it Hypnotherapy"
-            className="w-[12rem] h-[3rem]"
-          />
+          <img src={navbar_logo} alt="Logo" className="w-[12rem] h-[3rem]" />
         </NavLink>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-6">
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              isActive ? activeStyles : navLinkStyles
-            }
-          >
-            Home
-          </NavLink>
-          <NavLink
-            to="/services"
-            className={({ isActive }) =>
-              isActive ? activeStyles : navLinkStyles
-            }
-          >
-            Services
-          </NavLink>
-          <NavLink
-            to="/pricing"
-            className={({ isActive }) =>
-              isActive ? activeStyles : navLinkStyles
-            }
-          >
-            Pricing
-          </NavLink>
-          <NavLink
-            to="/contact"
-            className={({ isActive }) =>
-              isActive ? activeStyles : navLinkStyles
-            }
-          >
-            Contact Us
-          </NavLink>
+        <nav className="hidden md:flex space-x-2">
+          {navItems.map((item) => (
+            <div
+              key={item.to}
+              className="relative"
+              onMouseEnter={() => setActiveDropdown(item.label)}
+              onMouseLeave={() => setActiveDropdown(null)}
+            >
+              <NavLink
+                to={item.to}
+                className={({ isActive }) =>
+                  `${navLinkStyles} ${
+                    isActive ? activeStyles : ""
+                  } flex items-center`
+                }
+              >
+                {item.label}
+                {item.dropdownItems && <FaChevronDown className="ml-1" />}
+              </NavLink>
+
+              {item.dropdownItems && activeDropdown === item.label && (
+                <div className="absolute top-full left-0 w-48 py-2 bg-white rounded-md shadow-xl animate-fadeIn">
+                  {item.dropdownItems.map((dropItem) => (
+                    <NavLink
+                      key={dropItem.to}
+                      to={dropItem.to}
+                      className="block px-4 py-2 text-gray-800 hover:bg-blue-50 transition-colors duration-200"
+                    >
+                      {dropItem.label}
+                    </NavLink>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
         </nav>
 
-        {/* Actions */}
-        {loggedInUser.length <= 0 && (
-          <div className="hidden md:flex space-x-4 items-center">
-            <div className="flex justify-between items-center">
-              <FaSignInAlt className="mr-2" />
-              <NavLink
-                to="/login"
-                className={({ isActive }) =>
-                  isActive ? activeStyles : navLinkStyles
-                }
-              >
-                Login
-              </NavLink>
-            </div>
-            <div className="flex justify-between items-center">
-              <FaUserPlus className="mr-2" /> {/* Signup icon */}
-              <NavLink
-                to="/signup"
-                className={({ isActive }) =>
-                  isActive ? activeStyles : navLinkStyles
-                }
-              >
-                Sign Up
-              </NavLink>
-            </div>
-            <NavLink
-              to="/book_appointment"
-              className="flex justify-between items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-            >
-              <FaCalendarAlt className="mr-2" /> {/* Calendar icon */}
-              Book Appointment
-            </NavLink>
-          </div>
-        )}
-        {loggedInUser.length > 0 && (
-          <h2 className="hidden sm:block text-2xl text-blue-700">
-            {loggedInUser}
-          </h2>
-        )}
-        {loggedInUser.length > 0 && (
-          <button
-            className="hidden sm:block px-4 py-2 text-red-800 rounded hover:text-red-400"
-            onClick={handleLogout}
+        <div className="hidden md:block">
+          <NavLink
+            to="/enquiry"
+            className="
+              px-6 py-3 
+              bg-yellow-400 
+              text-blue-900 
+              rounded-full 
+              font-bold 
+              shadow-lg
+              hover:shadow-xl
+              hover:bg-yellow-300
+              transform 
+              hover:-translate-y-0.5 
+              transition-all 
+              duration-300
+              flex 
+              items-center
+            "
           >
-            Logout
-          </button>
-        )}
+            <FaCalendarAlt className="mr-2" />
+            Make an Enquiry
+          </NavLink>
+        </div>
 
-        {/* Mobile Menu Button */}
         <button
-          className="md:hidden text-gray-800 text-2xl"
-          onClick={toggleMobileMenu}
+          className="md:hidden text-white text-2xl p-2 hover:bg-blue-700 rounded-lg transition-colors duration-200"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
           {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
         </button>
-
-        {loggedInUser.length > 0 && (
-          <div className="hidden sm:flex">
-            <NavLink
-              to="/dashboard"
-              className="hidden md:flex space-x-4 items-center bg-gray-400 p-2 text-white rounded-md"
-            >
-              My Dashboard
-            </NavLink>
-          </div>
-        )}
       </div>
-      {/* Mobile Navigation */}
-      {isMobileMenuOpen && (
-        <nav className="md:hidden bg-gray-100 shadow-md">
-          <ul className="space-y-4 p-4">
-            <li>
-              <NavLink
-                to="/"
-                className={({ isActive }) =>
-                  isActive ? activeStyles : navLinkStyles
-                }
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Home
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/services"
-                className={({ isActive }) =>
-                  isActive ? activeStyles : navLinkStyles
-                }
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Services
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/pricing"
-                className={({ isActive }) =>
-                  isActive ? activeStyles : navLinkStyles
-                }
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Pricing
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/contact"
-                className={({ isActive }) =>
-                  isActive ? activeStyles : navLinkStyles
-                }
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Contact Us
-              </NavLink>
-            </li>
-            {loggedInUser.length <= 0 && (
-              <>
-                <li>
-                  <NavLink
-                    to="/login"
-                    className={({ isActive }) =>
-                      isActive ? activeStyles : navLinkStyles
-                    }
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Login
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="/signup"
-                    className={({ isActive }) =>
-                      isActive ? activeStyles : navLinkStyles
-                    }
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Sign Up
-                  </NavLink>
-                </li>
-              </>
-            )}
-            <li>
-              <NavLink
-                to="/book"
-                className="block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Book Appointment
-              </NavLink>
-            </li>
-            <li>
-              <div></div>
-            </li>
-            <li>
-              {loggedInUser.length > 0 && (
-                <h2 className="text-2xl text-blue-700">{loggedInUser}</h2>
-              )}
-            </li>
-            {/* If user is authenticated and logged in show logout button */}
-            {loggedInUser.length > 0 && (
-              <li>
-                <button
-                  className="block px-4 py-2 text-red-800 rounded hover:text-red-400"
-                  onClick={handleLogout}
-                >
-                  Logout
-                </button>
-              </li>
-            )}
-          </ul>
+
+      {/* Mobile Menu */}
+      <div
+        className={`
+          md:hidden 
+          fixed 
+          inset-0 
+          bg-blue-900/95 
+          transform 
+          transition-transform 
+          duration-300 
+          ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"}
+        `}
+      >
+        <nav className="flex flex-col items-center justify-center h-full space-y-8">
+          {navItems.map((item, index) => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className={({ isActive }) =>
+                `text-white text-2xl font-medium 
+                hover:text-yellow-200 
+                transform 
+                hover:scale-110 
+                transition-all 
+                duration-300 
+                ${isActive ? "text-yellow-200" : ""}`
+              }
+              style={{ animationDelay: `${index * 100}ms` }}
+            >
+              {item.label}
+            </NavLink>
+          ))}
+          <NavLink
+            to="/enquiry"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="px-6 py-3 bg-yellow-400 text-blue-900 rounded-full font-bold"
+          >
+            <FaCalendarAlt className="inline mr-2" />
+            Make an Enquiry
+          </NavLink>
         </nav>
-      )}
+      </div>
     </header>
   );
 };

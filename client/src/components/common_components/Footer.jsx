@@ -4,11 +4,11 @@ import { FaFacebook, FaLinkedin, FaYoutube } from "react-icons/fa"; // Using Rea
 
 const Footer = () => {
   return (
-    <footer className="bg-[#202939] text-white py-8 mt-12 border-t-2 border-gray-200">
-      <div className="container mx-auto px-6 lg:px-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+    <footer className="bg-gradient-to-b from-teal-700 to-cyan-700 text-white py-8 ">
+      <div className="container mx-auto px-6 font-bold lg:px-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
         {/* Contact Information */}
         <div>
-          <h3 className="text-xl font-semibold mb-4">Contact Info</h3>
+          <h3 className="text-2xl font-semibold mb-4">Contact Info</h3>
           <ul className="space-y-3">
             <li className="flex items-center">
               <span className="mr-2">📍</span> Healing Minds 835 Buckley St
@@ -25,7 +25,7 @@ const Footer = () => {
 
         {/* Navigation Links */}
         <div>
-          <h3 className="text-xl font-semibold mb-4 sm:text-center">
+          <h3 className="text-2xl font-semibold mb-4 sm:text-center">
             Quick Links
           </h3>
           <ul className="space-y-3 flex flex-col justify-between items-start sm:items-center">
@@ -54,7 +54,7 @@ const Footer = () => {
 
         {/* Social Media Links */}
         <div>
-          <h3 className="text-xl font-semibold mb-4">Follow Us</h3>
+          <h3 className="text-2xl font-semibold mb-4">Follow Us</h3>
           <div className="flex space-x-6">
             <a
               href="https://www.facebook.com/stella.dichiera"
@@ -85,9 +85,10 @@ const Footer = () => {
 
         {/* Copyright Section */}
         <div className="col-span-full text-center mt-8 sm:mt-0">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-white-600">
             &copy; 2024 Go For It Hypnotherapy. All rights reserved.
           </p>
+          <p className="text-gray-300">Developer: Sijan Pradhan</p>
         </div>
       </div>
     </footer>

@@ -1,61 +1,91 @@
+import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import { FaChevronDown } from "react-icons/fa";
 
 const FAQAccordin = () => {
   const [activeIndex, setActiveIndex] = useState(null);
 
-  const toggleAccordion = (index) => {
-    setActiveIndex(activeIndex === index ? null : index);
-  };
   const faqs = [
     {
-      question: "What is hypnotherapy, and how does it work?",
+      question: "What is hypnotherapy?",
       answer:
-        "Hypnotherapy is a therapeutic technique that uses relaxation and focused attention to help you achieve a heightened state of awareness, allowing positive suggestions to help overcome challenges or achieve goals.",
+        "Hypnotherapy is a therapeutic technique that uses hypnosis to create a state of focused attention and increased suggestibility.",
     },
     {
-      question: " Is hypnotherapy safe?",
+      question: "Is hypnotherapy safe?",
       answer:
-        "Yes, hypnotherapy is completely safe. It is a natural state of deep relaxation, and you are always in control during the session.",
-    },
-    {
-      question: "What issues can hypnotherapy help with?",
-      answer:
-        "We specialize in areas like smoking cessation, weight loss, anxiety, depression, motivation, and overcoming fears such as flying.",
-    },
-    {
-      question: "How long is a typical session?",
-      answer:
-        "The duration depends on the service. For smoking cessation, sessions are typically 90 minutes. Weight loss and other issues may require multiple sessions.",
+        "Yes, hypnotherapy is completely safe when conducted by a qualified professional. You remain in control throughout the session.",
     },
     {
       question: "How many sessions will I need?",
       answer:
-        "This depends on your specific needs and goals. Smoking cessation often requires one session, while weight loss or anxiety management may need multiple sessions for lasting results.",
+        "The number of sessions varies depending on individual needs and goals. Usually, significant progress can be seen within 3-6 sessions.",
     },
   ];
 
   return (
-    <section id="faq" className="py-16 bg-white px-4">
-      <div className="container mx-auto">
-        <h2 className="text-3xl font-bold text-center">
+    <section className="py-20 bg-gray-50">
+      <motion.div
+        className="container mx-auto px-4"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+      >
+        <motion.h2
+          className="text-4xl font-bold text-center text-gray-800 mb-12"
+          initial={{ y: 20, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          viewport={{ once: true }}
+        >
           Frequently Asked Questions
-        </h2>
-        <div className="mt-8 space-y-4">
+        </motion.h2>
+
+        <div className="max-w-3xl mx-auto">
           {faqs.map((faq, index) => (
-            <div key={index} className="border rounded-lg overflow-hidden">
-              <button
-                className="w-full text-left p-4 bg-gray-100"
-                onClick={() => toggleAccordion(index)}
+            <motion.div
+              key={index}
+              className="mb-4"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+            >
+              <motion.button
+                className="w-full p-4 bg-white rounded-lg shadow-md flex justify-between items-center"
+                onClick={() =>
+                  setActiveIndex(activeIndex === index ? null : index)
+                }
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
-                <span className="font-bold">{faq.question}</span>
-              </button>
-              {activeIndex === index && (
-                <div className="p-4 bg-gray-50">{faq.answer}</div>
-              )}
-            </div>
+                <span className="font-semibold text-left">{faq.question}</span>
+                <motion.div
+                  animate={{ rotate: activeIndex === index ? 180 : 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <FaChevronDown />
+                </motion.div>
+              </motion.button>
+
+              <AnimatePresence>
+                {activeIndex === index && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="p-4 bg-gray-50 rounded-b-lg">
+                      {faq.answer}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
           ))}
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };
