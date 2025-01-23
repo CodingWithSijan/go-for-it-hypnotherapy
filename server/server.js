@@ -32,6 +32,6 @@ app.use("/api", enquiryRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api", emailRoutes);
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(process.env.PORT, () => {
   console.log(`Server started on port ${process.env.PORT}`.bgCyan);
 });
