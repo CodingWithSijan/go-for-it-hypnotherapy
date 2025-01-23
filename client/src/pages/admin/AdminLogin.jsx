@@ -12,11 +12,14 @@ const AdminLogin = () => {
       const token = localStorage.getItem("adminToken");
       if (token) {
         try {
-          await axios.get("http://localhost:3000/api/admin/verify-token", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+          await axios.get(
+            `${import.meta.env.VITE_REACT_BACKEND_URL}/api/admin/verify-token`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
           navigate("/admin/dashboard");
         } catch (error) {
           console.error("Token verification failed:", error);
@@ -36,7 +39,7 @@ const AdminLogin = () => {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/admin/login",
+        `${import.meta.env.VITE_REACT_BACKEND_URL}/api/admin/login`,
         data
       );
       localStorage.setItem("adminToken", response.data.token);

@@ -37,7 +37,7 @@ const EnquiryForm = () => {
     setButtonText("Submitting...");
     setLoading(true);
     try {
-      await axios.post("http://localhost:3000/api/enquiry", data);
+      await axios.post(`${import.meta.env.VITE_REACT_BACKEND_URL}/api/enquiry`, data);
       toast.success("Enquiry submitted successfully!");
       reset();
       setButtonText("Submit");

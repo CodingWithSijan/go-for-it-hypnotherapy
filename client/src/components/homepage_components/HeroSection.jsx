@@ -34,7 +34,7 @@ const HeroSection = () => {
       >
         {/* Heading */}
         <motion.h1
-          className="text-4xl md:text-10xl font-extrabold mb-6 leading-tight text-white drop-shadow-[2px_2px_2px_rgba(0,0,0,1)]"
+          className="text-4xl md:text-8xl font-extrabold mb-6 leading-tight bg-gradient-to-r from-cyan-100  to-yellow-300 bg-clip-text text-transparent  drop-shadow-[5px_5px_5px_rgba(40,40,40,1)]"
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2 }}

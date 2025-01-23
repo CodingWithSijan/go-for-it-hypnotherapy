@@ -27,7 +27,7 @@ const AdminDashboard = () => {
     const fetchAdminDetails = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/admin/verify-token",
+          `${import.meta.env.VITE_REACT_BACKEND_URL}/api/admin/verify-token`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -46,7 +46,7 @@ const AdminDashboard = () => {
     const fetchEnquiries = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/enquiries",
+          `${import.meta.env.VITE_REACT_BACKEND_URL}/api/enquiries`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         const pending = response.data.filter((enquiry) => !enquiry.completed);
@@ -65,11 +65,14 @@ const AdminDashboard = () => {
     const token = localStorage.getItem("adminToken");
     console.log("Token is:", token);
     try {
-      await axios.patch(`http://localhost:3000/api/admin/enquiries/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await axios.patch(
+        `${import.meta.env.VITE_REACT_BACKEND_URL}/api/admin/enquiries/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       toast.success("Enquiry marked as completed");
       setEnquiries((prev) => prev.filter((enquiry) => enquiry._id !== id));
       const completedEnquiry = enquiries.find((enquiry) => enquiry._id === id);
@@ -100,10 +103,13 @@ const AdminDashboard = () => {
     }
     setIsSubmitting(true);
     try {
-      await axios.post("http://localhost:3000/api/send-email", {
-        email: selectedEnquiry.email,
-        message: emailMessage,
-      });
+      await axios.post(
+        `${import.meta.env.VITE_REACT_BACKEND_URL}/api/send-email`,
+        {
+          email: selectedEnquiry.email,
+          message: emailMessage,
+        }
+      );
       toast.success("Email sent successfully");
       closeModal();
       setTimeout(() => {
