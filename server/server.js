@@ -28,6 +28,9 @@ const adminRoutes = require("./routes/adminRoutes");
 const emailRoutes = require("./routes/emailRoutes");
 
 // Use routes
+app.get("/", (req, res) => {
+  res.send("Hello from the server");
+});
 app.use("/api", enquiryRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api", emailRoutes);
