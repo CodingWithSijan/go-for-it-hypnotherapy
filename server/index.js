@@ -9,10 +9,11 @@ dotenv.config();
 const app = express();
 
 const corsOptions = {
-  origin: process.env.REACT_BASE_URL,
-  methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true,
-}
+  origin: '*', // Allow access from any origin
+  methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'], // Specify allowed methods
+  credentials: true, // Allow credentials (like cookies, authorization headers, etc.)
+};
+
 
 app.use(cors(corsOptions));
 app.use(express.json());
