@@ -1,5 +1,5 @@
 // src/components/VideoIntroduction.jsx
-
+import stella_video from "../../assets/stella_video.mp4";
 const VideoIntroduction = () => {
   return (
     <section className="relative py-16 bg-gradient-to-r from-indigo-900 to-[#202939] text-white">
@@ -25,14 +25,15 @@ const VideoIntroduction = () => {
             className="group"
           >
             <div className="w-[60vw] h-72 md:h-96 bg-gray-800 rounded-xl overflow-hidden">
-              <iframe
-                className="w-full h-full"
-                src="https://www.youtube.com/embed/mMNEDv5ilrE?autoplay=1&mute=1"
-                title="Stella Introduction Video"
-                frameBorder="0"
-                allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
+             <video
+              className="w-full h-full"
+              controls
+              autoPlay
+              muted
+            >
+              <source src={stella_video} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
             </div>
           </a>
         </div>
