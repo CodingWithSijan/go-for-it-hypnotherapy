@@ -17,9 +17,7 @@ exports.createEnquiry = async (req, res) => {
 
     // Send email to user
     const userTransporter = nodemailer.createTransport({
-      host: 'smtp-mail.outlook.com',
-      port: 587,
-      secure: false, // Use true for port 465
+      service:'gmail',
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
