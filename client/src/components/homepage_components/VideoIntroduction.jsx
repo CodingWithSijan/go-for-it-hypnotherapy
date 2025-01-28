@@ -18,12 +18,7 @@ const VideoIntroduction = () => {
 
         {/* Video Wrapper with Play Button */}
         <div className="relative inline-block">
-          <a
-            href="https://www.youtube.com/watch?v=mMNEDv5ilrE&t=8s"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group"
-          >
+         
             <div className="w-[60vw] h-72 md:h-96 bg-gray-800 rounded-xl overflow-hidden">
              <video
               className="w-full h-full"
@@ -35,7 +30,7 @@ const VideoIntroduction = () => {
               Your browser does not support the video tag.
             </video>
             </div>
-          </a>
+       
         </div>
       </div>
     </section>
