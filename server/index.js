@@ -16,6 +16,8 @@ const corsOptions = {
 
 
 app.use(cors(corsOptions));
+// Handle preflight requests
+app.options('*', cors(corsOptions));
 app.use(express.json());
 
 // Import routes
