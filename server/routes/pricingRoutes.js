@@ -1,14 +1,18 @@
 const express = require("express");
 const {
 	getAllPricing,
-	addNewPricing,
+	createPricing,
+	//   deletePricing,
+	//   getPricingById,
+	//   updatePricing,
 } = require("../controllers/pricingController");
-const { protect } = require("../middleware/authMiddleware");
+
+// const { protect } = require("../middleware/authMiddleware");
 const router = express.Router();
 
-// Route to get pricing information
-router.get("/get-pricing", getAllPricing);
-// Route to add new pricing information
-router.post("/add-pricing", addNewPricing);
+// Route to get all pricing
+router.get("/get-all-pricing", getAllPricing);
+// Route to create a new pricing
+router.post("/add-pricing", createPricing);
 
 module.exports = router;

@@ -11,7 +11,7 @@ const EditServices = () => {
 	useEffect(() => {
 		const fetchServiceById = async () => {
 			try {
-				const response = await BASE_API.get(`api/get-servicebyid/${id}`);
+				const response = await BASE_API.get(`api/admin/get-servicebyid/${id}`);
 				setTitle(response.data.title);
 				setDetails(response.data.details);
 			} catch (error) {
@@ -26,7 +26,7 @@ const EditServices = () => {
 	const handleUpdate = () => {
 		const updateService = async () => {
 			try {
-				await BASE_API.patch(`api/update-service/${id}`, {
+				await BASE_API.patch(`api/admin/update-service/${id}`, {
 					title,
 					details,
 				});

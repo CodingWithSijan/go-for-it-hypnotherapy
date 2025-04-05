@@ -12,7 +12,7 @@ const Services = () => {
 	useEffect(() => {
 		const fetchAllServices = async () => {
 			try {
-				const response = await BASE_API.get(`/api/get-services`);
+				const response = await BASE_API.get(`/api/admin/get-services`);
 				setServices(response.data);
 			} catch (error) {
 				console.error("Error fetching services:", error);

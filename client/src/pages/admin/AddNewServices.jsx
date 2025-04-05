@@ -13,7 +13,7 @@ const AddNewServices = () => {
 
 	const onSubmit = async (data) => {
 		try {
-			await BASE_API.post("/api/add-service", data);
+			await BASE_API.post("/api/admin/add-service", data);
 			toast.success("Service added successfully!");
 			reset();
 			window.location.href = "/admin/services";

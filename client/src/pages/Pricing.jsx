@@ -1,40 +1,28 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../components/common_components/Header";
 import Footer from "../components/common_components/Footer";
 import { motion } from "framer-motion";
+import BASE_API from "../services/axiosHelp";
 
 const Pricing = () => {
-	const pricingPlans = [
-		{
-			title: "Initial Consultation",
-			price: "$150",
-			duration: "2 hours",
-			description:
-				"2 hours consultation on most issues such as Anxiety, Insomnia, Phobias, Relationship etc.",
-		},
-		{
-			title: "Follow Up Sessions",
-			price: "$80",
-			duration: "1 hour 30 minutes",
-			description: "Any follow up sessions for one hour (on any subject)",
-		},
-		{
-			title: "Quit Smoking or Quit Vaping",
-			price: "$300",
-			duration: "2 hours",
-			description: "2 hour consultation for Quit Smoking or Quit Vaping",
-		},
-		{
-			title: "Weight Loss",
-			price: "$320",
-			duration: "4 hours",
-			description: "4 one hour sessions for Weight Loss",
-		},
-		{
-			title: "For Other Services",
-			price: "Contact Stella",
-			description: "For any other services, please contact Stella for a quote.",
-		},
-	];
+	// Fetching pricing data from the server
+	useEffect(() => {
+		const fetchPricingData = async () => {
+			const response = await BASE_API.get("/api/admin/get-all-pricing");
+			if (response.status === 200) {
+				setPricingData(response.data);
+				setLoading(false);
+			} else {
+				console.error("Error fetching pricing data:", response.statusText);
+			}
+		};
+		fetchPricingData();
+	}, []);
+
+	const [pricingData, setPricingData] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const navigate = useNavigate();
 
 	return (
 		<>
@@ -70,7 +58,7 @@ const Pricing = () => {
 							},
 						}}
 					>
-						{pricingPlans.map((plan, index) => (
+						{pricingData.map((plan, index) => (
 							<motion.div
 								key={index}
 								className="bg-white shadow-md rounded-lg p-8 text-center transform hover:scale-105 transition duration-300 border-2 border-transparent hover:border-blue-500 flex flex-col justify-between"

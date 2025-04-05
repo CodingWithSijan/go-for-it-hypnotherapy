@@ -14,7 +14,7 @@ const ServicesManage = () => {
 	useEffect(() => {
 		const fetchServices = async () => {
 			try {
-				const response = await BASE_API.get("api/get-services");
+				const response = await BASE_API.get("api/admin/get-services");
 				console.log(response.data);
 				setServices(response.data);
 			} catch (error) {
@@ -30,7 +30,7 @@ const ServicesManage = () => {
 		if (window.confirm("Are you sure you want to delete this service?")) {
 			setLoading(true);
 			try {
-				await BASE_API.post(`api/delete-service/${id}`);
+				await BASE_API.post(`api/admin/delete-service/${id}`);
 				setServices((prevServices) =>
 					prevServices.filter((service) => service._id !== id)
 				);
