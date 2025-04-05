@@ -8,6 +8,16 @@ exports.getAllServices = async (_, res) => {
 		res.status(500).json({ message: "Server Error", error: error.message });
 	}
 };
+exports.getServiceById = async (req, res) => {
+	const { id } = req.params;
+	try {
+		const service = await Services.findById(id);
+		console.log(id);
+		res.status(200).json(service);
+	} catch (error) {
+		res.status(500).json({ message: "Server Error", error: error.message });
+	}
+};
 
 exports.createService = async (req, res) => {
 	const { title, details } = req.body;

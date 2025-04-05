@@ -10,6 +10,7 @@ import ServicesManage from "./pages/admin/ServicesManage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AddNewServices from "./pages/admin/AddNewServices";
+import EditServices from "./pages/admin/EditServices";
 
 const App = () => {
 	return (
@@ -25,6 +26,7 @@ const App = () => {
 				<Route path="/admin/dashboard" element={<AdminDashboard />} />
 				<Route path="/admin/services" element={<ServicesManage />} />
 				<Route path="/admin/add-new-service" element={<AddNewServices />} />
+				<Route path="/admin/edit-service/:id" element={<EditServices />} />
 			</Routes>
 		</Router>
 	);

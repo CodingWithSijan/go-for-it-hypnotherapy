@@ -10,7 +10,9 @@ const AdminHeader = () => {
 	return (
 		<header className="bg-blue-800 text-white p-4 flex justify-between items-center">
 			<div className="flex items-center">
-				<h1 className="text-2xl font-bold">Admin Dashboard</h1>
+				<h1 className="text-2xl font-bold">
+					<NavLink to="/admin/dashboard">Admin Dashboard</NavLink>
+				</h1>
 			</div>
 			<div>
 				<NavLink to="/admin/services">MANAGE SERVICES</NavLink>

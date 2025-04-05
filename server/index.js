@@ -24,7 +24,7 @@ const enquiryRoutes = require("./routes/enquiryRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const emailRoutes = require("./routes/emailRoutes");
 const servicesRoutes = require("./routes/servicesRoutes");
-
+const pricingRoutes = require("./routes/pricingRoutes");
 // Use routes
 app.get("/", (req, res) => {
 	res.send("Hello from the server");
@@ -33,6 +33,7 @@ app.use("/api", enquiryRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api", emailRoutes);
 app.use("/api", servicesRoutes);
+app.use("/api", pricingRoutes);
 
 app.listen(process.env.PORT, () => {
 	console.log(`Server started on port ${process.env.PORT}`.bgCyan);

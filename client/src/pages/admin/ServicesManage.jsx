@@ -48,6 +48,11 @@ const ServicesManage = () => {
 		navigate("/admin/add-new-service");
 	};
 
+	const handleEditService = (id) => {
+		console.log("TRIGGERED", id);
+		navigate(`/admin/edit-service/${id}`);
+	};
+
 	return (
 		<div className="bg-gray-100 min-h-screen">
 			<AdminHeader />
@@ -86,7 +91,10 @@ const ServicesManage = () => {
 										<td className="border px-4 py-2">{service.title}</td>
 										<td className="border px-4 py-2">{service.details}</td>
 										<td className="border px-4 py-2">
-											<button className="bg-yellow-500 text-white px-4 py-2 rounded-lg mr-2">
+											<button
+												onClick={() => handleEditService(service._id)}
+												className="bg-yellow-500 text-white px-4 py-2 rounded-lg mr-2"
+											>
 												Edit
 											</button>
 											<button
