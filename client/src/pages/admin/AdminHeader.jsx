@@ -14,8 +14,13 @@ const AdminHeader = () => {
 					<NavLink to="/admin/dashboard">Admin Dashboard</NavLink>
 				</h1>
 			</div>
-			<div>
-				<NavLink to="/admin/services">MANAGE SERVICES</NavLink>
+			<div className="flex space-x-4">
+				<NavLink className="hover:text-green-500" to="/admin/services">
+					MANAGE SERVICES
+				</NavLink>
+				<NavLink className="hover:text-green-500" to="/admin/pricing">
+					MANAGE PRICING
+				</NavLink>
 			</div>
 			<div className="flex items-center">
 				<p className="mr-4">

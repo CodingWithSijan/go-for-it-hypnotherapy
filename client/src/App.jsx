@@ -11,6 +11,9 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AddNewServices from "./pages/admin/AddNewServices";
 import EditServices from "./pages/admin/EditServices";
+import PricingManage from "./pages/admin/PricingManage";
+import AddNewPricing from "./pages/admin/AddNewPricing";
+import EditPricing from "./pages/admin/EditPricing";
 
 const App = () => {
 	return (
@@ -25,8 +28,11 @@ const App = () => {
 				<Route path="/admin/login" element={<AdminLogin />} />
 				<Route path="/admin/dashboard" element={<AdminDashboard />} />
 				<Route path="/admin/services" element={<ServicesManage />} />
+				<Route path="/admin/pricing" element={<PricingManage />} />
 				<Route path="/admin/add-new-service" element={<AddNewServices />} />
+				<Route path="/admin/add-new-pricing" element={<AddNewPricing />} />
 				<Route path="/admin/edit-service/:id" element={<EditServices />} />
+				<Route path="/admin/edit-pricing/:id" element={<EditPricing />} />
 			</Routes>
 		</Router>
 	);
