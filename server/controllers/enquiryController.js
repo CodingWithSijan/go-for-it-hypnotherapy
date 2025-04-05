@@ -2,33 +2,33 @@ const Enquiry = require("../models/Enquiry");
 const nodemailer = require("nodemailer");
 
 exports.createEnquiry = async (req, res) => {
-  const { name, phone, email, service, message } = req.body;
+	const { name, phone, email, service, message } = req.body;
 
-  try {
-    const newEnquiry = new Enquiry({
-      name,
-      phone,
-      email,
-      service,
-      message,
-    });
+	try {
+		const newEnquiry = new Enquiry({
+			name,
+			phone,
+			email,
+			service,
+			message,
+		});
 
-    await newEnquiry.save();
+		await newEnquiry.save();
 
-    // Send email to user
-    const userTransporter = nodemailer.createTransport({
-      service:'gmail',
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
+		// Send email to user
+		const userTransporter = nodemailer.createTransport({
+			service: "gmail",
+			auth: {
+				user: process.env.EMAIL_USER,
+				pass: process.env.EMAIL_PASS,
+			},
+		});
 
-    const userMailOptions = {
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: "Enquiry Received - Go For It Hypnotherapy",
-      html: `
+		const userMailOptions = {
+			from: process.env.EMAIL_USER,
+			to: email,
+			subject: "Enquiry Received - Go For It Hypnotherapy",
+			html: `
           <!DOCTYPE html>
           <html>
             <head>
@@ -108,8 +108,8 @@ exports.createEnquiry = async (req, res) => {
                   <p>"${message}"</p>
                   <p>Feel free to explore more about our services</p>
                   <a href="${
-                    process.env.FRONT_URL
-                  }/services" class="button">View Other Services</a>
+										process.env.FRONT_URL
+									}/services" class="button">View Other Services</a>
                   <p>Best regards,</p>
                   <p><strong>Go For It Hypnotherapy</strong></p>
                 </div>
@@ -121,16 +121,16 @@ exports.createEnquiry = async (req, res) => {
             </body>
           </html>
         `,
-    };
+		};
 
-    await userTransporter.sendMail(userMailOptions);
+		await userTransporter.sendMail(userMailOptions);
 
-    // Send email to admin
-    const adminMailOptions = {
-      from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER,
-      subject: "New Enquiry Received - Go For It Hypnotherapy",
-      html: `
+		// Send email to admin
+		const adminMailOptions = {
+			from: process.env.EMAIL_USER,
+			to: process.env.EMAIL_USER,
+			subject: "New Enquiry Received - Go For It Hypnotherapy",
+			html: `
           <!DOCTYPE html>
           <html>
             <head>
@@ -213,21 +213,21 @@ exports.createEnquiry = async (req, res) => {
             </body>
           </html>
         `,
-    };
+		};
 
-    await userTransporter.sendMail(adminMailOptions);
+		await userTransporter.sendMail(adminMailOptions);
 
-    res.status(201).json({ message: "Enquiry submitted successfully" });
-  } catch (error) {
-    res.status(500).json({ message: "Server Error", error: error.message });
-  }
+		res.status(201).json({ message: "Enquiry submitted successfully" });
+	} catch (error) {
+		res.status(500).json({ message: "Server Error", error: error.message });
+	}
 };
 
 exports.getEnquiries = async (req, res) => {
-  try {
-    const enquiries = await Enquiry.find().sort({ createdAt: -1 });
-    res.status(200).json(enquiries);
-  } catch (error) {
-    res.status(500).json({ message: "Server Error", error: error.message });
-  }
+	try {
+		const enquiries = await Enquiry.find().sort({ createdAt: -1 });
+		res.status(200).json(enquiries);
+	} catch (error) {
+		res.status(500).json({ message: "Server Error", error: error.message });
+	}
 };

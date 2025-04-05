@@ -1,8 +1,8 @@
 const express = require("express");
 const {
-  login,
-  markEnquiryAsCompleted,
-  verifyToken,
+	login,
+	markEnquiryAsCompleted,
+	verifyToken,
 } = require("../controllers/adminController");
 const { protect } = require("../middleware/authMiddleware");
 
