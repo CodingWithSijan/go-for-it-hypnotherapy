@@ -2,36 +2,44 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-const services = [
-	"Quit Smoking",
-	"Weight Loss (Virtual Gastric Banding)",
-	"Weight Loss Group Classes",
-	"Self Esteem & Confidence",
-	"Anger Management",
-	"Fears & Phobias",
-	"Loss & Grief",
-	"Motivation",
-	"Stress & Anxiety",
-	"Depression",
-	"Public Speaking",
-	"Other",
-	"Follow Up Session",
-];
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const EnquiryForm = () => {
+	const location = useLocation();
+	const [services, setServices] = useState([]);
+	const [buttonText, setButtonText] = useState("Submit");
+	const [loading, setLoading] = useState(false);
+	const [titles, setTitles] = useState([]);
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		const fetchServices = async () => {
+			try {
+				const response = await axios.get(
+					`${import.meta.env.VITE_REACT_BACKEND_URL}/api/admin/get-services`
+				);
+				if (response.status === 200) {
+					console.log(response.data);
+					setServices(response.data);
+					setTitles(response.data.map((service) => service.title));
+				} else {
+					toast.error("Error fetching services data");
+					console.log("Error fetching services data:", response.statusText);
+				}
+			} catch (error) {
+				toast.error(`Failed to fetch services: ${error.message}`);
+			}
+		};
+		fetchServices();
+	}, [location]);
+
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
 		reset,
 	} = useForm();
-
-	const [buttonText, setButtonText] = useState("Submit");
-	const [loading, setLoading] = useState(false);
-
-	const navigate = useNavigate();
 
 	const onSubmit = async (data) => {
 		setButtonText("Submitting...");
@@ -148,7 +156,7 @@ const EnquiryForm = () => {
 								errors.service ? "border-red-500" : "border-gray-300"
 							}`}
 						>
-							{services.map((service) => (
+							{titles.map((service) => (
 								<option key={service} value={service}>
 									{service}
 								</option>

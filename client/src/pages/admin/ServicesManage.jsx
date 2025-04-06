@@ -1,11 +1,12 @@
 import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import AdminHeader from "./AdminHeader";
 import "react-toastify/dist/ReactToastify.css";
 import BASE_API from "../../services/axiosHelp";
 
 const ServicesManage = () => {
+	const location = useLocation();
 	const [services, setServices] = useState([]);
 	const [loading, setLoading] = useState(false);
 
@@ -17,6 +18,7 @@ const ServicesManage = () => {
 				const response = await BASE_API.get("api/admin/get-services");
 				console.log(response.data);
 				setServices(response.data);
+				setLoading(false);
 			} catch (error) {
 				toast.error(
 					`Failed to fetch services: ${error.message}. Please try again.`
@@ -24,7 +26,7 @@ const ServicesManage = () => {
 			}
 		};
 		fetchServices();
-	}, []);
+	}, [location]);
 
 	const handleDelete = (id) => async () => {
 		if (window.confirm("Are you sure you want to delete this service?")) {

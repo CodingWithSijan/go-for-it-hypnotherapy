@@ -1,11 +1,12 @@
 import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import AdminHeader from "./AdminHeader";
 import "react-toastify/dist/ReactToastify.css";
 import BASE_API from "../../services/axiosHelp";
 
 const PricingManage = () => {
+	const location = useLocation();
 	const [pricingPlans, setPricingPlans] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
@@ -15,12 +16,13 @@ const PricingManage = () => {
 			try {
 				const response = await BASE_API.get("api/admin/get-all-pricing");
 				setPricingPlans(response.data);
+				setLoading(false);
 			} catch (error) {
 				toast.error(`Failed to fetch pricing plans: ${error.message}`);
 			}
 		};
 		fetchPricing();
-	}, []);
+	}, [location]);
 
 	const handleDelete = (id) => async () => {
 		if (window.confirm("Are you sure you want to delete this pricing plan?")) {
