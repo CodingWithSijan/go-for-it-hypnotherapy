@@ -70,10 +70,10 @@ const StellaIntroduction = () => {
 					{/* Introduction Text */}
 					<div className="text-center lg:text-left lg:w-1/2 animate__animated animate__fadeInRight">
 						<p className="text-lg lg:text-xl text-gray-700 leading-relaxed mb-6">
-							Stella Dichiera is a Clinical Hypnotherapist who can help you
-							today! Hypnotherapy is an increasingly popular modality for
-							individuals who are looking to improve themselves and make
-							positive changes in their lives.
+							Stella Dichiera is a professional hypnotherapist based in Moonee
+							Ponds, Victoria. She specializes in helping clients quit smoking,
+							manage anxiety, overcome depression, and achieve lasting weight
+							loss through personalized therapy sessions.
 						</p>
 					</div>
 				</div>
