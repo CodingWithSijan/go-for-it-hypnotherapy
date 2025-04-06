@@ -1,25 +1,28 @@
 import { useState, useEffect } from "react";
 import { FaCalendarAlt } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import Header from "../components/common_components/Header";
 import Footer from "../components/common_components/Footer";
 import { motion } from "framer-motion";
 import { CheckCircleIcon } from "@heroicons/react/outline";
 import BASE_API from "../services/axiosHelp";
+import "../services/loader.css"; // Importing the loader CSS
 const Services = () => {
+	const location = useLocation();
 	const [services, setServices] = useState([]);
-
+	const [loading, setLoading] = useState(true);
 	useEffect(() => {
 		const fetchAllServices = async () => {
 			try {
 				const response = await BASE_API.get(`/api/admin/get-services`);
 				setServices(response.data);
+				setLoading(false);
 			} catch (error) {
 				console.error("Error fetching services:", error);
 			}
 		};
 		fetchAllServices();
-	}, []);
+	}, [location]);
 
 	const containerVariants = {
 		hidden: { opacity: 0 },
@@ -64,30 +67,35 @@ const Services = () => {
 					>
 						Our Services
 					</motion.h2>
-
-					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-						{services.map((service, index) => (
-							<motion.div
-								key={index}
-								className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
-								variants={itemVariants}
-								whileHover={{ y: -5 }}
-							>
+					{loading ? (
+						<div className="flex justify-center items-center min-h-[200px]">
+							<div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12"></div>
+							<p className="ml-4 text-gray-600">Loading Services...</p>
+						</div>
+					) : (
+						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+							{services.map((service, index) => (
 								<motion.div
-									className="text-4xl text-indigo-600 mb-4"
-									whileHover={{ scale: 1.1 }}
-									whileTap={{ scale: 0.9 }}
+									key={index}
+									className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+									variants={itemVariants}
+									whileHover={{ y: -5 }}
 								>
-									<CheckCircleIcon className="h-10 w-10 text-yellow-600" />
+									<motion.div
+										className="text-4xl text-indigo-600 mb-4"
+										whileHover={{ scale: 1.1 }}
+										whileTap={{ scale: 0.9 }}
+									>
+										<CheckCircleIcon className="h-10 w-10 text-yellow-600" />
+									</motion.div>
+									<h3 className="text-xl font-semibold mb-2 text-yellow-600">
+										{service.title}
+									</h3>
+									<p className="text-gray-600">{service.details}</p>
 								</motion.div>
-								<h3 className="text-xl font-semibold mb-2 text-yellow-600">
-									{service.title}
-								</h3>
-								<p className="text-gray-600">{service.details}</p>
-							</motion.div>
-						))}
-					</div>
-
+							))}
+						</div>
+					)}
 					{/* CTA Button */}
 					<motion.div
 						className="mt-12 text-center"

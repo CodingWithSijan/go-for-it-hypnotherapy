@@ -10,7 +10,7 @@ const { protect } = require("../middleware/authMiddleware");
 const router = express.Router();
 
 // Route to get all services
-router.get("/get-services", protect, getAllServices);
+router.get("/get-services", getAllServices);
 // Route to create a new service
 router.post("/add-service", protect, createService);
 //Route to delete a service
