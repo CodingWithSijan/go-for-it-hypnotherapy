@@ -5,7 +5,6 @@ import axios from "axios";
 
 const StellaIntroduction = () => {
 	const location = useLocation();
-	const [services, setServices] = useState([]);
 	const [titles, setTitles] = useState([]);
 	const [hypnotherapyBenefits, setHypnotherapyBenefits] = useState([]);
 	useEffect(() => {
@@ -16,8 +15,15 @@ const StellaIntroduction = () => {
 				);
 				if (response.status === 200) {
 					console.log(response.data);
-					setServices(response.data);
+
 					setTitles(response.data.map((service) => service.title));
+					const tempTitles = titles.filter(
+						(title) =>
+							!title.toLowerCase().includes("follow up session") &&
+							!title.toLowerCase().includes("other")
+					);
+					setHypnotherapyBenefits(tempTitles);
+					console.log("Filtered Titles:", tempTitles);
 				} else {
 					console.log("Error fetching services data:", response.statusText);
 				}
@@ -26,17 +32,7 @@ const StellaIntroduction = () => {
 			}
 		};
 		fetchServices();
-		const filteredTitles = () => {
-			const tempTitles = titles.filter(
-				(title) =>
-					!title.toLowerCase().includes("follow up session") &&
-					!title.toLowerCase().includes("other")
-			);
-
-			setHypnotherapyBenefits(tempTitles);
-		};
-		filteredTitles();
-	}, [location]);
+	}, [location, titles]);
 
 	const qualifications = [
 		"Clinical Hypnotherapist",
